@@ -11,10 +11,10 @@
     
     </div>
     
-<div class=" w-5/6 h-20 flex flex-row mx-24 mb-72">
+<div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
     @for (item of list; track item){
     
-        <div class="w-full h-full text-white mr-5">
+        <div class="w-full h-full text-white mr-5  cursor-pointer" (click)="onClick(item.id)">
     
             <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
         

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { MyServiceService } from '../../service/my-service.service';
 import { Observable, map } from 'rxjs';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -13,15 +13,18 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 // import { Input } from '@angular/core';
 import { ListItemComponent } from '../../shared/list-item/list-item.component';
 import { GalleriaModule } from 'primeng/galleria';
-
+// import { SafePipe } from '../../shared/safe.pipe';
+import { SafePipe } from 'safe-pipe';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule],
+  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule,SafePipe],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
 export class ListComponent implements OnInit{
+
 
  // itemArray$!:Observable<any>;
   responsiveOptions: any[] | undefined;
@@ -31,8 +34,12 @@ export class ListComponent implements OnInit{
   arr: any[]=[]
   seriesArr:any[]=[]
   upcomingList:any[]=[]
+  videos: any[]=[]
+  safe!:SafePipe
 
-
+  // url:string='www.youtube.com/watch?v='
+  
+  
 
   responsiveOptionsHeader: any[] = [
     {
@@ -50,12 +57,14 @@ export class ListComponent implements OnInit{
 ];
  
 
-  constructor(private service: MyServiceService){
+  constructor(private service: MyServiceService, private sanitizer: DomSanitizer){
 
    
   }
 
   ngOnInit(): void {
+
+
   //  this.itemArray$ = this.service.getMoviesList()
   //  this.itemArray$.subscribe((res)=> console.log(res))
 
@@ -105,6 +114,17 @@ this.service.getUpcomingList().subscribe((list:any)=>{
  // console.log(this.upcomingList)
   
 })
+
+// this.service.getVideos().subscribe((videos:any)=>{
+
+
+//   this.videos= videos['results']
+
+//   this.videos= this.videos.slice(0,5)
+//  // console.log(this.upcomingList)
+ 
+  
+// })
   this.responsiveOptions = [
     {
         breakpoint: '1199px',
@@ -122,9 +142,15 @@ this.service.getUpcomingList().subscribe((list:any)=>{
         numScroll: 1
     }
 ]
+
+
   }
 
 
+
+  sanitizeUrl(key: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${key}`);
+  }
 //   getSeverity(status: string) {
 //     switch (status) {
 //         case 'INSTOCK':
@@ -136,9 +162,15 @@ this.service.getUpcomingList().subscribe((list:any)=>{
 //     }
 // }
 
+
+
+// safeUrl(key:string){
+
+  
+//   return this.safe?.transform('www.youtube.com/watch?v='+ key)
+
+// }
+
 }
 
-function slice(arg0: number, arg1: number): import("rxjs").OperatorFunction<any, unknown> {
-  throw new Error('Function not implemented.');
-}
 

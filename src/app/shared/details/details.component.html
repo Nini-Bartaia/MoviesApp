@@ -1,0 +1,59 @@
+
+    
+<!-- <div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    @for (item of data; track item){
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer" >
+    
+            <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
+        
+    
+        <p class="text-white font-bold font-poppins">{{item.original_title}}  {{item.original_name}}</p>
+        <p class="text-white font-bold font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
+        <p class="text-white font-bold font-poppins">{{item.overview}}</p>
+        </div>
+    }
+</div> -->
+
+<!-- 
+<div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer" >
+    
+            <img src="https://image.tmdb.org/t/p/w500{{ data.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
+        
+    
+        <p class="text-white font-bold font-poppins">{{item.original_title}}  {{item.original_name}}</p>
+        <p class="text-white font-bold font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
+        <p class="text-white font-bold font-poppins">{{item.overview}}</p>
+        </div>
+    
+</div> -->
+
+
+<div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    @for (item of videos; track item){
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer">
+        
+    
+            {{item.site}}
+
+            <iframe width="420" height="315"
+            [src]="sanitizeUrl(item.key)">
+</iframe>
+
+
+        </div>
+    }
+</div>  
+
+
+<div >
+    <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster">
+    <p class="text-white font-bold font-poppins">{{data?.original_title}}</p>
+    <p class="text-white font-bold font-poppins">{{data?.release_date}}</p>
+    <p class="text-white font-bold font-poppins">{{data?.overview}}</p>
+  </div>
+  

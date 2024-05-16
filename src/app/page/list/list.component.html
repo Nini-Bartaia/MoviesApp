@@ -51,7 +51,7 @@
         [responsiveOptions]="responsiveOptions">
             <ng-template let-movie pTemplate="item">
                 <div class=" m-2 p-3 ">
-                    <div class="mb-3">
+                    <div class="mb-3  cursor-pointer">
                         <div class="relative mx-auto w-80 h-72 ">
                             <img 
                                 src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
@@ -110,3 +110,65 @@
 <app-list-item [list]="upcomingList" [title]="'Upcoming'"></app-list-item>
 
 
+
+
+  <!-- <div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    @for (item of videos; track item){
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer">
+        
+    
+            {{item.site}}
+
+            <iframe width="420" height="315"
+src="www.youtube.com/watch?v={{item.key}} | safe: sanitizationType">
+</iframe>
+
+
+        </div>
+    }
+</div>   -->
+
+
+  <!-- <div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    @for (item of videos; track item){
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer">
+        
+    
+            {{item.site}}
+
+            <iframe width="420" height="315"
+src="www.youtube.com/watch?v={{item.key}} | safe: sanitizationType">
+</iframe>
+
+
+        </div>
+    }
+</div>  
+   -->
+
+   
+<!-- 
+
+
+   MAIN!!!!
+
+  
+  <div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
+    @for (item of videos; track item){
+    
+        <div class="w-full h-full text-white mr-5  cursor-pointer">
+        
+    
+            {{item.site}}
+
+            <iframe width="420" height="315"
+            [src]="sanitizeUrl(item.key)">
+</iframe>
+
+
+        </div>
+    }
+</div>  
+   -->

@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, exhaustMap, switchMap } from 'rxjs';
+import { env } from '../../environments/env';
 
+import { headers } from '../../types/headerType';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,26 +14,19 @@ export class MyServiceService {
   getSeries$: BehaviorSubject<boolean>= new BehaviorSubject(true);
   getheaderList$: BehaviorSubject<boolean>= new BehaviorSubject(true);
   getUpcomingList$:BehaviorSubject<boolean>= new BehaviorSubject(true);
+  getVideos$: BehaviorSubject<boolean>= new BehaviorSubject(true);
+  getDetail$: BehaviorSubject<boolean>= new BehaviorSubject(true);
+
+  apiKey='767966187834fddd8ff19b00e6a923f5'
+
   constructor(private http: HttpClient) { }
 
 
-
-   baseUrl='https://api.themoviedb.org/3/movie/now_playing?'
-   apiKey='767966187834fddd8ff19b00e6a923f5'
-   trendingUrl='https://api.themoviedb.org/3/trending/movie/day?'
-   latestUrl='https://api.themoviedb.org/3/movie/latest?'
-   onAirUrl='https://api.themoviedb.org/3/tv/on_the_air?'
-   headerListUrl='https://api.themoviedb.org/3/tv/top_rated?'
-   upcomingUrl='https://api.themoviedb.org/3/movie/upcoming?'
-
   getMoviesList() {
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+    
 
-    });
-
-    return this.getList$.pipe(switchMap(()=> this.http.get<any>(`${this.trendingUrl}api_key=${this.apiKey}`,{
+    return this.getList$.pipe(switchMap(()=> this.http.get<any>(`${env.trendingUrl}api_key=${this.apiKey}`,{
       headers: headers
     })))
     
@@ -45,13 +40,9 @@ export class MyServiceService {
 
   getLatest(){
 
+    
 
-    const headers= new HttpHeaders({
-
-      'Content-Type':'application/json'
-    })
-
-    return this.getLatest$.pipe(switchMap(()=> this.http.get<any>(`${this.baseUrl}api_key=${this.apiKey}`, {
+    return this.getLatest$.pipe(switchMap(()=> this.http.get<any>(`${env.baseUrl}api_key=${this.apiKey}`, {
       headers:headers
     })))
 
@@ -60,11 +51,8 @@ export class MyServiceService {
 
   getOnAirSeries(){
 
-    const headers= new HttpHeaders({
-      'Content-Type':'application/json'
-    })
-
-    return this.getSeries$.pipe(switchMap(()=> this.http.get<any>(`${this.onAirUrl}api_key=${this.apiKey}`,{
+    
+    return this.getSeries$.pipe(switchMap(()=> this.http.get<any>(`${env.onAirUrl}api_key=${this.apiKey}`,{
 
       headers:headers
     })
@@ -76,14 +64,11 @@ export class MyServiceService {
   getHeaderList(){
 
 
-    const headers= new HttpHeaders({
-
-      'Content-Type':'application/json'
-    })
+    
 
     return this.getheaderList$.pipe(switchMap(()=>
 
-       this.http.get<any>(`${this.headerListUrl}api_key=${this.apiKey}`, {
+       this.http.get<any>(`${env.headerListUrl}api_key=${this.apiKey}`, {
 
         headers: headers
       })
@@ -95,15 +80,11 @@ export class MyServiceService {
   
   getUpcomingList(){
 
-
-    const headers= new HttpHeaders({
-
-      'Content-Type':'application/json'
-    })
+ 
 
     return this.getUpcomingList$.pipe(switchMap(()=>
 
-       this.http.get<any>(`${this.upcomingUrl}api_key=${this.apiKey}`, {
+       this.http.get<any>(`${env.upcomingUrl}api_key=${this.apiKey}`, {
 
         headers: headers
       })
@@ -112,6 +93,24 @@ export class MyServiceService {
   }
 
 
+    getVideos(id:string){
+ 
+    return this.getVideos$.pipe(switchMap(()=> this.http.get<any>(`${env.moviesVideos}${id}/videos?api_key=${this.apiKey}`, {
+      headers:headers
+    })))
+
+  }
+
+  getDetail(id: string){
 
 
-}
+   return  this.getDetail$.pipe(switchMap(()=> this.http.get<any>(`${env.detailsUrl}${id}?api_key=${this.apiKey}`)))
+
+  }
+
+
+  }
+
+
+
+

@@ -15,7 +15,7 @@
 
 <div class="w-auto h-700 relative">
 
-    <img src="assets\Rectangle 2.png" alt="" class="w-full h-full" >
+    <img src="assets\photo-1489599849927-2ee91cede3ba.avif" alt="" class="w-full h-full" >
 
     <div class="flex flex-row w-96 h-20  relative bottom-2/4 left-1/3 justify-between ">
         <button class="w-44 h-16 bg-worth-of-red text-2xl	text-white font-bold font-poppins rounded border-none cursor-pointer">Watch Now</button>
@@ -25,7 +25,7 @@
 
 <!-- <div class="card w-full">
 <p-galleria 
-    [value]="headerList" 
+    [value]="trendingMovies" 
     [numVisible]="5" 
     [circular]="true" 
     [showItemNavigators]="true" 
@@ -33,7 +33,7 @@
     [responsiveOptions]="responsiveOptionsHeader" 
     [containerStyle]="{ 'max-width': '640px' }">
         <ng-template pTemplate="item" let-item>
-            <img src="https://image.tmdb.org/t/p/w500{{item.poster_path}}" style=" display: block;" class="w-full h-72" />
+            <img src="https://image.tmdb.org/t/p/w500{{item.backdrop_path}}" style=" display: block;" class="w-full h-72" />
         </ng-template>
 </p-galleria>
 
@@ -52,13 +52,22 @@
             <ng-template let-movie pTemplate="item">
                 <div class=" m-2 p-3 ">
                     <div class="mb-3  cursor-pointer">
-                        <div class="relative mx-auto w-80 h-72 ">
+                        <!-- <div class="relative mx-auto w-80 h-72 ">
                             <img 
                                 src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
                                 [alt]="movie.title" 
                                 class="w-full border-round h-72" />
                             
-                        </div>
+                        </div> -->
+
+                        
+   <div class="img-wrapper">
+    <img class="zoom" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" />
+    <div class="content fade">
+      {{movie.title}}
+    </div>
+   
+  </div>
                     </div>
                     <div class="mb-3 font-medium">
                         {{ movie.title }}
@@ -71,6 +80,13 @@
                             <p-button icon="pi pi-heart" severity="secondary"/>
                             <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
                         </span> -->
+                    </div>
+                    <div>
+                        <span class="fa fa-star" [ngClass]="{'checked': getStarRating(movie.vote_average) >= 1}"></span>
+                        <span class="fa fa-star" [ngClass]="{'checked': getStarRating(movie.vote_average) >= 2}"></span>
+                        <span class="fa fa-star" [ngClass]="{'checked': getStarRating(movie.vote_average) >= 3}"></span>
+                        <span class="fa fa-star" [ngClass]="{'checked': getStarRating(movie.vote_average) >= 4}"></span>
+                        <span class="fa fa-star" [ngClass]="{'checked': getStarRating(movie.vote_average) >= 5}"></span>
                     </div>
                 </div>
             </ng-template>
@@ -172,3 +188,5 @@ src="www.youtube.com/watch?v={{item.key}} | safe: sanitizationType">
     }
 </div>  
    -->
+
+

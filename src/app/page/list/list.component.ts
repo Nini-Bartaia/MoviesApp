@@ -14,12 +14,12 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { ListItemComponent } from '../../shared/list-item/list-item.component';
 import { GalleriaModule } from 'primeng/galleria';
 // import { SafePipe } from '../../shared/safe.pipe';
-import { SafePipe } from 'safe-pipe';
+// import { SafePipe } from 'safe-pipe';
 import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule,SafePipe],
+  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -35,7 +35,7 @@ export class ListComponent implements OnInit{
   seriesArr:any[]=[]
   upcomingList:any[]=[]
   videos: any[]=[]
-  safe!:SafePipe
+  // safe!:SafePipe
 
   // url:string='www.youtube.com/watch?v='
   
@@ -75,6 +75,7 @@ export class ListComponent implements OnInit{
 
   this.service.getMoviesList().subscribe((movie: any) => {
     this.movies = movie['results'];
+    
 
     // console.log(this.movies['results'])
 });
@@ -170,6 +171,10 @@ this.service.getUpcomingList().subscribe((list:any)=>{
 //   return this.safe?.transform('www.youtube.com/watch?v='+ key)
 
 // }
+
+getStarRating(vote_average: number): number {
+  return Math.round(vote_average / 2);
+}
 
 }
 

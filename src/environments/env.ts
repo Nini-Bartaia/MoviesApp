@@ -4,7 +4,6 @@ export const env={
 
 
     baseUrl:'https://api.themoviedb.org/3/movie/now_playing?',
-   
     trendingUrl:'https://api.themoviedb.org/3/trending/movie/day?',
     latestUrl:'https://api.themoviedb.org/3/movie/latest?',
     onAirUrl:'https://api.themoviedb.org/3/tv/on_the_air?',

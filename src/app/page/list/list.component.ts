@@ -10,11 +10,14 @@ import { InputIconModule } from 'primeng/inputicon';
 import { CarouselModule } from 'primeng/carousel';
 import { TagModule } from 'primeng/tag';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
+// import { Input } from '@angular/core';
+import { ListItemComponent } from '../../shared/list-item/list-item.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule],
+  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -24,8 +27,27 @@ export class ListComponent implements OnInit{
   responsiveOptions: any[] | undefined;
   movies: any;
   trendingMovies!:any[];
-
+  headerList: any[]=[];
   arr: any[]=[]
+  seriesArr:any[]=[]
+  upcomingList:any[]=[]
+
+
+
+  responsiveOptionsHeader: any[] = [
+    {
+        breakpoint: '1024px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 3
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1
+    }
+];
  
 
   constructor(private service: MyServiceService){
@@ -57,6 +79,32 @@ this.service.getLatest().subscribe((movies:any)=>{
 })
 
 
+this.service.getOnAirSeries().subscribe((series:any)=>{
+    this.seriesArr= series['results']
+
+    this.seriesArr= this.seriesArr.slice(0,5);
+
+})
+
+this.service.getHeaderList().subscribe((list:any)=>{
+
+
+  this.headerList= list['results']
+
+  this.headerList= this.headerList.slice(0,5)
+ // console.log(this.headerList)
+  
+})
+
+this.service.getUpcomingList().subscribe((list:any)=>{
+
+
+  this.upcomingList= list['results']
+
+  this.upcomingList= this.upcomingList.slice(0,5)
+ // console.log(this.upcomingList)
+  
+})
   this.responsiveOptions = [
     {
         breakpoint: '1199px',
@@ -89,6 +137,7 @@ this.service.getLatest().subscribe((movies:any)=>{
 // }
 
 }
+
 function slice(arg0: number, arg1: number): import("rxjs").OperatorFunction<any, unknown> {
   throw new Error('Function not implemented.');
 }

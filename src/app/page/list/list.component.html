@@ -23,27 +23,41 @@
     </div>
 </div>
 
+<!-- <div class="card w-full">
+<p-galleria 
+    [value]="headerList" 
+    [numVisible]="5" 
+    [circular]="true" 
+    [showItemNavigators]="true" 
+    [showThumbnails]="false" 
+    [responsiveOptions]="responsiveOptionsHeader" 
+    [containerStyle]="{ 'max-width': '640px' }">
+        <ng-template pTemplate="item" let-item>
+            <img src="https://image.tmdb.org/t/p/w500{{item.poster_path}}" style=" display: block;" class="w-full h-72" />
+        </ng-template>
+</p-galleria>
+
+</div> -->
+
 <h2 class=" mx-24 my-5 text-white">Trending</h2>
 
 <div class="card mx-10 my-0" >
     <p-carousel 
+   
     class="text-white" 
         [value]="movies" 
         [numVisible]="3" 
         [numScroll]="1" 
         [responsiveOptions]="responsiveOptions">
             <ng-template let-movie pTemplate="item">
-                <div class=" m-2 p-3">
+                <div class=" m-2 p-3 ">
                     <div class="mb-3">
                         <div class="relative mx-auto w-80 h-72 ">
                             <img 
                                 src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
                                 [alt]="movie.title" 
                                 class="w-full border-round h-72" />
-                            <p-tag
-                              
-                                class="absolute" 
-                                [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                            
                         </div>
                     </div>
                     <div class="mb-3 font-medium">
@@ -62,7 +76,7 @@
             </ng-template>
     </p-carousel>
 </div>
-
+<!-- 
 <div class="flex flex-row justify-between w-10/12">
 <h2 class="mx-24 my-5 text-white">Now Playing</h2>
 
@@ -73,6 +87,7 @@
 </button>
 
 </div>
+
 <div class=" w-5/6 h-20 flex flex-row mx-24 my-0">
 @for (item of trendingMovies; track item){
 
@@ -85,5 +100,13 @@
     <p class="text-white font-bold font-poppins">{{item.release_date}}</p>
     </div>
 }
-</div>
+</div> -->
+
+
+<app-list-item [list]="trendingMovies" [title]="'Trending'"></app-list-item>
+
+<app-list-item [list]="seriesArr" [title]="'Latest'"></app-list-item>
+
+<app-list-item [list]="upcomingList" [title]="'Upcoming'"></app-list-item>
+
 

@@ -16,6 +16,8 @@ export class MyServiceService {
   getUpcomingList$:BehaviorSubject<boolean>= new BehaviorSubject(true);
   getVideos$: BehaviorSubject<boolean>= new BehaviorSubject(true);
   getDetail$: BehaviorSubject<boolean>= new BehaviorSubject(true);
+  getMovieWithGenres$: BehaviorSubject<boolean>= new BehaviorSubject(true);
+
 
   apiKey='767966187834fddd8ff19b00e6a923f5'
 
@@ -107,6 +109,13 @@ export class MyServiceService {
    return  this.getDetail$.pipe(switchMap(()=> this.http.get<any>(`${env.detailsUrl}${id}?api_key=${this.apiKey}`)))
 
   }
+
+  getMovieWithGenres(id:string){
+    console.log(id)
+    return  this.getMovieWithGenres$.pipe(switchMap(()=> this.http.get<any>(`${env.movieWithGenres}/movie?with_genres=${id}&api_key=${this.apiKey}`)))
+  }
+
+
 
 
   }

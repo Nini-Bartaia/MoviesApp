@@ -16,10 +16,11 @@ import { GalleriaModule } from 'primeng/galleria';
 // import { SafePipe } from '../../shared/safe.pipe';
 // import { SafePipe } from 'safe-pipe';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RaitingComponent } from '../../shared/raiting/raiting.component';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule],
+  imports: [ToolbarModule,InputTextModule,InputSwitchModule,ButtonModule,IconFieldModule,InputIconModule,CarouselModule,TagModule,ListItemComponent,GalleriaModule,RaitingComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
@@ -172,9 +173,9 @@ this.service.getUpcomingList().subscribe((list:any)=>{
 
 // }
 
-getStarRating(vote_average: number): number {
-  return Math.round(vote_average / 2);
-}
+// getStarRating(vote_average: number): number {
+//   return Math.round(vote_average / 2);
+// }
 
 }
 

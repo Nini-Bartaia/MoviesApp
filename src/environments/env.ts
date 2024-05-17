@@ -12,6 +12,7 @@ export const env={
     // moviesVideos:'https://api.themoviedb.org/3/movie/653346/videos?',
     detailsUrl:'https://api.themoviedb.org/3/movie/',
 
-    moviesVideos:'https://api.themoviedb.org/3/movie/'
+    moviesVideos:'https://api.themoviedb.org/3/movie/',
+    movieWithGenres:'https://api.themoviedb.org/3/discover/'
 
 }

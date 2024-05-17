@@ -35,13 +35,10 @@
 <div class=" w-5/6 h-20 flex flex-row mx-24 mb-96">
     @for (item of videos; track item){
     
-        <div class="w-full h-full text-white mr-5  cursor-pointer">
-        
-    
-            {{item.site}}
-
-            <iframe width="420" height="315"
+        <div class="w-full h-700 text-white mr-5  cursor-pointer" >
+            <iframe width="420" height="315" class="w-full h-full border-none" 
             [src]="sanitizeUrl(item.key)">
+
 </iframe>
 
 
@@ -50,10 +47,84 @@
 </div>  
 
 
-<div >
-    <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster">
+<div class="flex flex-row mt-700 border-worth-of-red ml-24 mb-24">
+    <div class="w-700 h-96">
+        <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster" class="w-full h-full rounded-lg">
+    </div>
+    <div class="flex flex-col">
+    <div class="text-white flex flex-row justify-between w-4/5 h-32 ml-5">
+        <p class="font-poppins font-bold text-2xl ">{{ data?.original_title }}</p>
+        <button class="w-48 h-16 bg-worth-of-red text-base text-white font-poppins rounded border-none cursor-pointer pl-2"><i class="pi pi-plus mr-2" style="font-size: 1rem"></i>Add to Favourite</button>
+    </div>
+
+    <div class="flex flex-row w-full h-20 border-worth-of-red gap-3 ml-5 items-center">
+
+        @for (item of genres; track item){
+
+        <button class="w-36 h-11 bg-white text-base font-bold text-black font-poppins rounded border-none cursor-pointer pl-2">{{item.name}}</button>
+       
+
+        }
+        <p class="text-white text-center">{{data?.release_date}}</p>
+        <app-raiting [voteAverage]="data?.vote_average"></app-raiting>
+       
+
+
+    </div>
+    <div class="ml-5">
+        <p class="text-white font-poppins text-wrap">{{data?.overview}}</p>
+    </div>
+    <div class="flex flex-col w-3/5 h-32 ml-5 mb-16">
+        <p class="text-white">Country:
+
+            @for (item of countries; track item){
+                &nbsp; {{item?.name}}
+               
+            }
+         
+        
+        </p>
+
+        <p class="text-white">Genre:
+
+            @for (item of genres; track item){
+
+                &nbsp; {{item?.name}}
+            }
+        </p>
+        <p class="text-white">Data Release: &nbsp; {{data?.release_date}}</p>
+        <p class="text-white">Production: 
+
+            @for (item of productions; track item){
+                &nbsp; {{item?.name}} &nbsp; &nbsp;  
+            }
+        </p>
+    </div>
+</div>
+</div>
+
+<app-list-item [list]="detailGenreMovies" [title]="'Upcoming'"></app-list-item>
+
+
+
+<!-- <div>
+    
     <p class="text-white font-bold font-poppins">{{data?.original_title}}</p>
     <p class="text-white font-bold font-poppins">{{data?.release_date}}</p>
     <p class="text-white font-bold font-poppins">{{data?.overview}}</p>
-  </div>
+  </div> -->
   
+
+
+  <!-- <div class="grid-container">
+    <div class="item1">
+        
+        <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster" class="w-full h-full">
+
+    </div>
+    <div class="item2">header</div>
+    <div class="item3">overwiew</div>  
+    <div class="item4">fields</div>
+    <div class="item5">values</div>
+  </div>
+   -->

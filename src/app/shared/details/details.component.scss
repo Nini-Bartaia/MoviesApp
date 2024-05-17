@@ -1,0 +1,29 @@
+.item1 { 
+    
+    grid-area: img;
+    width: 352px;
+    height: 576px;
+
+ }
+.item2 { grid-area: header; }
+.item3 { grid-area: overwiew; }
+.item4 { grid-area: fields; }
+.item5 { grid-area: values; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'img header header header header header'
+    'img overwiew overwiew overwiew overwiew overwiew'
+    'img fields fields footer values values';
+  gap: 10px;
+    position: relative;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}

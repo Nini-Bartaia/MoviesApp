@@ -1,125 +1,78 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, exhaustMap, switchMap } from 'rxjs';
 import { env } from '../../environments/env';
-
 import { headers } from '../../types/headerType';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MyServiceService {
-
-  getList$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  getLatest$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getSeries$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getheaderList$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getUpcomingList$:BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getVideos$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getDetail$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-  getMovieWithGenres$: BehaviorSubject<boolean>= new BehaviorSubject(true);
-
-
-  apiKey='767966187834fddd8ff19b00e6a923f5'
-
-  constructor(private http: HttpClient) { }
-
+  // ამ ეტაპზე behavior subject ები არ გვჭირდება
+  constructor(private http: HttpClient) {}
 
   getMoviesList() {
-
-    
-
-    return this.getList$.pipe(switchMap(()=> this.http.get<any>(`${env.trendingUrl}api_key=${this.apiKey}`,{
-      headers: headers
-    })))
-    
-
-
-    // return this.http.get<any>(`${this.baseUrl}?api_key=${this.apiKey}`, {
-    //   headers: headers
-      
-    // });
+    return this.http.get<any>(
+      `${env.trendingUrl}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-  getLatest(){
-
-    
-
-    return this.getLatest$.pipe(switchMap(()=> this.http.get<any>(`${env.baseUrl}api_key=${this.apiKey}`, {
-      headers:headers
-    })))
-
+  getLatest() {
+    return this.http.get<any>(
+      `${env.baseUrl}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-
-  getOnAirSeries(){
-
-    
-    return this.getSeries$.pipe(switchMap(()=> this.http.get<any>(`${env.onAirUrl}api_key=${this.apiKey}`,{
-
-      headers:headers
-    })
-  ))
-    
-
+  getOnAirSeries() {
+    return this.http.get<any>(
+      `${env.onAirUrl}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-  getHeaderList(){
-
-
-    
-
-    return this.getheaderList$.pipe(switchMap(()=>
-
-       this.http.get<any>(`${env.headerListUrl}api_key=${this.apiKey}`, {
-
-        headers: headers
-      })
-    ))
-
+  getHeaderList() {
+    return this.http.get<any>(
+      `${env.headerListUrl}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-
-  
-  getUpcomingList(){
-
- 
-
-    return this.getUpcomingList$.pipe(switchMap(()=>
-
-       this.http.get<any>(`${env.upcomingUrl}api_key=${this.apiKey}`, {
-
-        headers: headers
-      })
-    ))
-
+  getUpcomingList() {
+    return this.http.get<any>(
+      `${env.upcomingUrl}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-
-    getVideos(id:string){
- 
-    return this.getVideos$.pipe(switchMap(()=> this.http.get<any>(`${env.moviesVideos}${id}/videos?api_key=${this.apiKey}`, {
-      headers:headers
-    })))
-
+  getVideos(id: string) {
+    return this.http.get<any>(
+      `${env.moviesVideos}${id}/videos`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-  getDetail(id: string){
-
-
-   return  this.getDetail$.pipe(switchMap(()=> this.http.get<any>(`${env.detailsUrl}${id}?api_key=${this.apiKey}`)))
-
+  getDetail(id: string) {
+    return this.http.get<any>(
+      `${env.detailsUrl}${id}`,
+      this.returnHttpParams({ api_key: env.apiKey }),
+    );
   }
 
-  getMovieWithGenres(id:string){
-    console.log(id)
-    return  this.getMovieWithGenres$.pipe(switchMap(()=> this.http.get<any>(`${env.movieWithGenres}/movie?with_genres=${id}&api_key=${this.apiKey}`)))
+  getMovieWithGenres(id: string) {
+    return this.http.get<any>(
+      `${env.movieWithGenres}/movie`,
+      this.returnHttpParams({ with_genres: id, api_key: env.apiKey }),
+    );
   }
 
+  returnHttpParams(object?: any) {
+    //ეს ფუნქცია დააბრუნებს პარამსებს და ხელით არ დაგჭირდება გაწერა, გადმოეცი ობიეტი რა პარამსებიც გჭირდება იმის მიხედვით
+    let queryParams = new HttpParams();
+    object &&
+      Object.keys(object).forEach(
+        (key: string) => (queryParams = queryParams.append(key, object[key])),
+      );
 
-
-
+    return { headers: headers, params: object ? queryParams : {} };
   }
-
-
-
-
+}

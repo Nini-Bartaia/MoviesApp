@@ -11,19 +11,26 @@ import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,TagModule,CarouselModule,InputIconModule,IconFieldModule,ButtonModule,InputSwitchModule,InputTextModule,ToolbarModule],
+  imports: [
+    RouterOutlet,
+    TagModule,
+    CarouselModule,
+    InputIconModule,
+    IconFieldModule,
+    ButtonModule,
+    InputSwitchModule,
+    InputTextModule,
+    ToolbarModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'moviesApp';
 
+  constructor(private route: Router) {}
 
-  constructor(private route:Router){}
-
-
-  navigateHome(){
-
-    this.route.navigate(['/list'])
+  navigateHome() {
+    this.route.navigate(['/list']);
   }
 }

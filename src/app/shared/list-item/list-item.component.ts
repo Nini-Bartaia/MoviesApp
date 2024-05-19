@@ -6,25 +6,14 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './list-item.component.html',
-  styleUrl: './list-item.component.scss'
 })
 export class ListItemComponent {
+  @Input() list: any[] = [];
+  @Input() title: String = '';
 
+  constructor(private router: Router) {}
 
-  @Input() list: any[]=[];
-
-  @Input() title:String=''
-
-
-  constructor(private router:Router){}
-
-onClick(id:any){
-
-
-//  console.log(event.target)
-
-  this.router.navigate(['details', id])
-
-
-}
+  onClick(id: any) {
+    this.router.navigate(['details', id]);
+  }
 }

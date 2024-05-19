@@ -23,10 +23,10 @@
 
 <h2 class="mx-24 my-5 text-white">Trending</h2>
 
-<div class="mx-10 my-0 card">
+<div *ngIf="movies$ | async as movies" class="mx-10 my-0 card">
   <p-carousel
     class="text-white"
-    [value]="(movies$ | async)['results']"
+    [value]="movies['results']"
     [numVisible]="4"
     [numScroll]="1"
     [showIndicators]="false"
@@ -60,16 +60,19 @@
 </div>
 
 <app-list-item
-  [list]="(trendingMovies$ | async)['results'] | slice: 0 : 5"
+  *ngIf="trendingMovies$ | async as trendingMovies"
+  [list]="trendingMovies['results'] | slice: 0 : 5"
   [title]="'Trending'"
 ></app-list-item>
 
 <app-list-item
-  [list]="(seriesArr$ | async)['results'] | slice: 0 : 5"
+  *ngIf="seriesArr$ | async as seriesArr"
+  [list]="seriesArr['results'] | slice: 0 : 5"
   [title]="'Latest'"
 ></app-list-item>
 
 <app-list-item
-  [list]="(upcomingList$ | async)['results'] | slice: 0 : 5"
+  *ngIf="upcomingList$ | async as upcomingList"
+  [list]="upcomingList['results'] | slice: 0 : 5"
   [title]="'Upcoming'"
 ></app-list-item>

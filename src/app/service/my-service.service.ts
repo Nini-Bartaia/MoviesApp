@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from '../../environments/env';
 import { headers } from '../../types/headerType';
+import { map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -45,10 +46,28 @@ export class MyServiceService {
   }
 
   getVideos(id: string) {
-    return this.http.get<any>(
-      `${env.moviesVideos}${id}/videos`,
-      this.returnHttpParams({ api_key: env.apiKey }),
-    );
+    return this.http
+      .get<any>(
+        `${env.moviesVideos}${id}/videos`,
+        this.returnHttpParams({ api_key: env.apiKey }),
+      )
+      .pipe(
+        map((data: any) => {
+          const trailers = data.results.filter(
+            (video: any) => video.type === 'Trailer',
+          );
+
+          trailers.forEach((trailer: any) => {
+            trailer.published_at = new Date(trailer.published_at); //ეს დააბრუნებს იმ დატას რაც გჭირდება
+          });
+
+          const maxDateTrailer = trailers.reduce((prev: any, current: any) => {
+            return prev.published_at > current.published_at ? prev : current;
+          });
+
+          return [maxDateTrailer];
+        }),
+      );
   }
 
   getDetail(id: string) {

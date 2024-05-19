@@ -8,10 +8,10 @@
   </button>
 </div>
 
-<div class="flex flex-row w-5/6 h-20 mx-24 mb-96">
+<div class="flex flex-row flex-wrap w-5/6 mx-24 mb-96">
   @for (item of list; track item) {
     <div
-      class="w-full h-full mr-5 text-white cursor-pointer"
+      class="w-[300px] h-full mr-5 text-white cursor-pointer"
       (click)="onClick(item.id)"
     >
       <img

@@ -1,0 +1,135 @@
+<!-- <div class="flex flex-row w-5/6 h-20 mx-24 mb-96">
+    @for (item of data; track item){
+    
+        <div class="w-full h-full mr-5 text-white cursor-pointer" >
+    
+            <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
+        
+    
+        <p class="font-bold text-white font-poppins">{{item.original_title}}  {{item.original_name}}</p>
+        <p class="font-bold text-white font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
+        <p class="font-bold text-white font-poppins">{{item.overview}}</p>
+        </div>
+    }
+</div> -->
+
+<!-- 
+<div class="flex flex-row w-5/6 h-20 mx-24 mb-96">
+    
+    
+        <div class="w-full h-full mr-5 text-white cursor-pointer" >
+    
+            <img src="https://image.tmdb.org/t/p/w500{{ data.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
+        
+    
+        <p class="font-bold text-white font-poppins">{{item.original_title}}  {{item.original_name}}</p>
+        <p class="font-bold text-white font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
+        <p class="font-bold text-white font-poppins">{{item.overview}}</p>
+        </div>
+    
+</div> -->
+
+<div
+  *ngIf="videos$ | async as videos"
+  class="flex flex-row w-5/6 h-20 mx-24 mb-96"
+>
+  @for (item of videos; track item) {
+    <div class="w-full mr-5 text-white cursor-pointer h-700">
+      <iframe
+        width="420"
+        height="315"
+        class="w-full h-full border-none"
+        [src]="sanitizeUrl(item.key)"
+      >
+      </iframe>
+    </div>
+  }
+</div>
+
+<div class="flex flex-row mb-24 ml-24 mt-700 border-worth-of-red">
+  <div class="w-700 h-96">
+    <img
+      src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}"
+      alt="Poster"
+      class="w-full h-full rounded-lg"
+    />
+  </div>
+  <div class="flex flex-col">
+    <div class="flex flex-row justify-between w-4/5 h-32 ml-5 text-white">
+      <p class="text-2xl font-bold font-poppins">{{ data?.original_title }}</p>
+      <button
+        class="w-48 h-16 pl-2 text-base text-white border-none rounded cursor-pointer bg-worth-of-red font-poppins"
+      >
+        <i class="mr-2 pi pi-plus" style="font-size: 1rem"></i>Add to Favourite
+      </button>
+    </div>
+
+    <div
+      class="flex flex-row items-center w-full h-20 gap-3 ml-5 border-worth-of-red"
+    >
+      @for (item of genres; track item) {
+        <button
+          class="pl-2 text-base font-bold text-black bg-white border-none rounded cursor-pointer w-36 h-11 font-poppins"
+        >
+          {{ item.name }}
+        </button>
+      }
+      <p class="text-center text-white">{{ data?.release_date }}</p>
+      <app-raiting [voteAverage]="data?.vote_average"></app-raiting>
+    </div>
+    <div class="ml-5">
+      <p class="text-white font-poppins text-wrap">{{ data?.overview }}</p>
+    </div>
+    <div class="flex flex-col w-3/5 h-32 mb-16 ml-5">
+      <p class="text-white">
+        Country:
+
+        @for (item of countries; track item) {
+          &nbsp; {{ item?.name }}
+        }
+      </p>
+
+      <p class="text-white">
+        Genre:
+
+        @for (item of genres; track item) {
+          &nbsp; {{ item?.name }}
+        }
+      </p>
+      <p class="text-white">Data Release: &nbsp; {{ data?.release_date }}</p>
+      <p class="text-white">
+        Production:
+
+        @for (item of productions; track item) {
+          &nbsp; {{ item?.name }} &nbsp; &nbsp;
+        }
+      </p>
+    </div>
+  </div>
+</div>
+
+<app-list-item
+  *ngIf="detailGenreMovies$ | async as detailGenreMovies"
+  [list]="detailGenreMovies['results']"
+  [title]="'Upcoming'"
+></app-list-item>
+
+<!-- <div>
+    
+    <p class="font-bold text-white font-poppins">{{data?.original_title}}</p>
+    <p class="font-bold text-white font-poppins">{{data?.release_date}}</p>
+    <p class="font-bold text-white font-poppins">{{data?.overview}}</p>
+  </div> -->
+
+<!-- <div class="grid-container">
+    <div class="item1">
+        
+        <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster" class="w-full h-full">
+
+    </div>
+    <div class="item2">header</div>
+    <div class="item3">overwiew</div>  
+    <div class="item4">fields</div>
+    <div class="item5">values</div>
+  </div>
+   -->

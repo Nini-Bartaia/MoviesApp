@@ -1,3 +1,17 @@
+<main class="overflow-scroll overflow-x-hidden overflow-y-hidden bg-black">
+  <div
+    class="flex flex-row items-center justify-center w-auto text-base text-white bg-black border border-black h-28 font-poppins"
+  >
+    <p class="mr-5 cursor-pointer" (click)="navigateHome()">Home</p>
+    <p class="mr-5 cursor-pointer">Movies</p>
 
+    <p-iconField iconPosition="left" class="mr-5">
+      <p-inputIcon styleClass="pi pi-search" />
+      <input type="text" pInputText placeholder="Search Movies" />
+    </p-iconField>
 
-<router-outlet />
+    <p class="mr-5 cursor-pointer">Series</p>
+    <p class="cursor-pointer">Animation</p>
+  </div>
+  <router-outlet />
+</main>

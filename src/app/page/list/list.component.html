@@ -1,89 +1,78 @@
-<div class="w-auto h-28 border  border-black flex flex-row justify-center items-center bg-black text-white text-base font-poppins">
-    <!-- class="w-auto h-28 border border-black flex flex-row justify-around items-center bg-black text-white text-base	" -->
-    <p class="mr-5 cursor-pointer">Home</p>
-    <p class="mr-5 cursor-pointer">Movies</p>
-    
-  <p-iconField iconPosition="left" class="mr-5">
-    <p-inputIcon styleClass="pi pi-search" />
-    <input type="text" pInputText placeholder="Search Movies" />
-  </p-iconField>
+<div class="relative w-auto h-700">
+  <img
+    src="assets\photo-1489599849927-2ee91cede3ba.avif"
+    alt=""
+    class="w-full h-full"
+  />
 
-    <p class="mr-5 cursor-pointer">Series</p>
-    <p class="cursor-pointer">Animation</p>
+  <div
+    class="relative flex flex-row justify-between h-20 w-96 bottom-2/4 left-1/3"
+  >
+    <button
+      class="h-16 text-2xl font-bold text-white border-none rounded cursor-pointer w-44 bg-worth-of-red font-poppins"
+    >
+      Watch Now
+    </button>
+    <button
+      class="h-16 text-2xl font-bold text-white bg-transparent border-2 rounded cursor-pointer w-44 border-worth-of-red font-poppins"
+    >
+      Watch Later
+    </button>
+  </div>
 </div>
 
+<h2 class="mx-24 my-5 text-white">Trending</h2>
 
-<div class="w-auto h-700 relative">
-
-    <img src="assets\Rectangle 2.png" alt="" class="w-full h-full" >
-
-    <div class="flex flex-row w-96 h-20  relative bottom-2/4 left-1/3 justify-between ">
-        <button class="w-44 h-16 bg-worth-of-red text-2xl	text-white font-bold font-poppins rounded border-none cursor-pointer">Watch Now</button>
-        <button class="w-44 h-16 border-2 	text-white 	border-worth-of-red text-2xl font-bold font-poppins rounded bg-transparent cursor-pointer">Watch Later</button>
-    </div>
+<div *ngIf="movies$ | async as movies" class="mx-10 my-0 card">
+  <p-carousel
+    class="text-white"
+    [value]="movies['results']"
+    [numVisible]="4"
+    [numScroll]="1"
+    [showIndicators]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template let-movie pTemplate="item">
+      <div class="p-3 m-2">
+        <div class="mb-3 cursor-pointer">
+          <div class="img-wrapper">
+            <img
+              class="zoom"
+              src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+            />
+            <div class="content fade">
+              {{ movie.title }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 font-medium">
+          {{ movie.title }}
+        </div>
+        <div class="flex justify-content-between align-items-center">
+          <div class="mt-0 text-xl font-semibold">
+            {{ movie.popularity }}
+          </div>
+        </div>
+        <app-raiting [voteAverage]="movie.vote_average"></app-raiting>
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
 
-<h2 class=" mx-24 my-5 text-white">Trending</h2>
+<app-list-item
+  *ngIf="trendingMovies$ | async as trendingMovies"
+  [list]="trendingMovies['results'] | slice: 0 : 5"
+  [title]="'Trending'"
+></app-list-item>
 
-<div class="card mx-10 my-0" >
-    <p-carousel 
-    class="text-white" 
-        [value]="movies" 
-        [numVisible]="3" 
-        [numScroll]="1" 
-        [responsiveOptions]="responsiveOptions">
-            <ng-template let-movie pTemplate="item">
-                <div class=" m-2 p-3">
-                    <div class="mb-3">
-                        <div class="relative mx-auto w-80 h-72 ">
-                            <img 
-                                src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
-                                [alt]="movie.title" 
-                                class="w-full border-round h-72" />
-                            <p-tag
-                              
-                                class="absolute" 
-                                [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium">
-                        {{ movie.title }}
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <div class="mt-0 font-semibold text-xl">
-                            {{ movie.popularity }}
-                        </div>
-                        <!-- <span>
-                            <p-button icon="pi pi-heart" severity="secondary"/>
-                            <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
-                        </span> -->
-                    </div>
-                </div>
-            </ng-template>
-    </p-carousel>
-</div>
+<app-list-item
+  *ngIf="seriesArr$ | async as seriesArr"
+  [list]="seriesArr['results'] | slice: 0 : 5"
+  [title]="'Latest'"
+></app-list-item>
 
-<div class="flex flex-row justify-between w-10/12">
-<h2 class="mx-24 my-5 text-white">Now Playing</h2>
-
-
-<button class="bg-transparent border-none cursor-pointer">
-<h2 class="text-white">View All <i class="pi pi-eye" style="font-size: 1.5rem"></i></h2>
-
-</button>
-
-</div>
-<div class=" w-5/6 h-20 flex flex-row mx-24 my-0">
-@for (item of trendingMovies; track item){
-
-    <div class="w-full h-full text-white mr-5">
-
-        <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
-    
-
-    <p class="text-white font-bold font-poppins">{{item.original_title}}</p>
-    <p class="text-white font-bold font-poppins">{{item.release_date}}</p>
-    </div>
-}
-</div>
-
+<app-list-item
+  *ngIf="upcomingList$ | async as upcomingList"
+  [list]="upcomingList['results'] | slice: 0 : 5"
+  [title]="'Upcoming'"
+></app-list-item>

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -33,6 +33,7 @@ import { CommonModule } from '@angular/common';
   
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'moviesApp';
@@ -41,9 +42,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   
   ngAfterViewInit(): void {
-    this.cdr.detectChanges()
-
-
+    // this.cdr.detectChanges()
   }
 
   isLoading$= this.service.isLoading$;

@@ -4,6 +4,8 @@ import { finalize } from "rxjs/operators";
 import { inject } from "@angular/core";
 
 export const KeyInterceptor: HttpInterceptorFn = (req, next) => {
+
+    console.log('intercepotr')
     const loaderService = inject(LoaderService);
 loaderService.show()    
     let newParams = new HttpParams({fromString: req.params.toString()});
@@ -16,7 +18,6 @@ loaderService.show()
     return next(requestClone).pipe(
         finalize(() => {
          loaderService.hide()
-        //  alert("udhihuid")
         })
     );
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MultiSelectModule} from 'primeng/multiselect';
 import { FormsModule,ReactiveFormsModule,FormControl, FormGroup, } from '@angular/forms';
 import { AnimateModule } from 'primeng/animate';
@@ -18,7 +18,7 @@ import { ListItemComponent } from '../../shared/list-item/list-item.component';
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.scss'
 })
-export class MoviesComponent implements OnInit{
+export class MoviesComponent implements OnInit, AfterViewInit{
   cities!: any[];
 
   formGroup!: FormGroup;
@@ -27,7 +27,7 @@ export class MoviesComponent implements OnInit{
   getMovieWithGenre$!:Observable<any>
 
 
-  constructor(private service: MyServiceService){}
+  constructor(private service: MyServiceService, private cdr: ChangeDetectorRef){}
   
   ngOnInit() {
 
@@ -50,6 +50,10 @@ export class MoviesComponent implements OnInit{
 
 }
 
+ngAfterViewInit(): void {
+  this.cdr.detectChanges()
+}
+
 onGenreSelectionChange(event: any) {
 
  let  str=''
@@ -57,7 +61,8 @@ onGenreSelectionChange(event: any) {
   event.value.forEach((item:any)=> console.log(str+=item.id +','))
 
   this.formGroup.controls['selectedCities'].setValue(event.value);
-  this.getMovieWithGenre$= this.service.getMovieWithGenres(str)
+  // this.getMovieWithGenre$= this.service.getMovieWithGenres(str)
+  this.movies$=this.service.getMovieWithGenres(str);
 
   console.log(this.formGroup.controls['selectedCities'].value)
 }

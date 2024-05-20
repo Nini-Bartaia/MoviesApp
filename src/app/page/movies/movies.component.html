@@ -1,0 +1,36 @@
+<p>movies works!</p>
+<!-- <div class="card flex justify-content-center h-700">
+    <p-multiSelect 
+        (value)="rame"
+         [options]="cities" 
+        [(ngModel)]="selectedCities" 
+        optionLabel="name" 
+        placeholder="Select Cities" />
+</div> -->
+
+
+
+<div class="card flex justify-content-center"  *ngIf="genres$ | async as genres" >
+    <form [formGroup]="formGroup">
+        <p-multiSelect 
+            [options]="genres['genres']" 
+            (onChange)="onGenreSelectionChange($event)"
+            formControlName="selectedCities" 
+            optionLabel="name" 
+            placeholder="Select Genre"/>
+    </form>
+</div>
+<!-- //radial-gradient(black, transparent) -->
+
+<app-list-item
+ *ngIf="movies$ | async as movies"
+[list]="movies['results']"
+[title]="'Movies'">
+</app-list-item>
+
+
+<app-list-item
+ *ngIf="getMovieWithGenre$ | async as moviesGenre"
+[list]="moviesGenre['results']"
+[title]="'Movies'">
+</app-list-item>

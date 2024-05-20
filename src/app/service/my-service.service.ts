@@ -84,6 +84,21 @@ export class MyServiceService {
     );
   }
 
+  getGenresForMovies(){
+
+    return this.http.get<any>(
+      `${env.getGenres}`, this.returnHttpParams({api_key:env.apiKey})
+    )
+  }
+  getAllMovies(){
+
+    return this.http.get<any>(
+      `${env.getAllMovies}`, this.returnHttpParams({api_key:env.apiKey})
+    )
+  }
+
+
+
   returnHttpParams(object?: any) {
     //ეს ფუნქცია დააბრუნებს პარამსებს და ხელით არ დაგჭირდება გაწერა, გადმოეცი ობიეტი რა პარამსებიც გჭირდება იმის მიხედვით
     let queryParams = new HttpParams();

@@ -11,4 +11,6 @@ export const env = {
 
   moviesVideos: 'https://api.themoviedb.org/3/movie/',
   movieWithGenres: 'https://api.themoviedb.org/3/discover/',
+  getGenres: 'https://api.themoviedb.org/3/genre/movie/list',
+  getAllMovies:'https://api.themoviedb.org/3/discover/movie'
 };

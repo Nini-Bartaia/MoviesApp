@@ -46,6 +46,11 @@
   }
 </div>
 
+<div class="loader-container" *ngIf="isLoading$ | async">
+  <div class="loader"></div>
+</div>
+
+
 <div class="flex flex-row mb-24 ml-24 mt-700 border-worth-of-red">
   <div class="w-700 h-96">
     <img

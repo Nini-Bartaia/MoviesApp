@@ -7,6 +7,7 @@ import { ListItemComponent } from '../list-item/list-item.component';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { SafePipe } from '../safe.pipe';
+import { LoaderService } from '../../service/loader.service';
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -23,14 +24,19 @@ export class DetailsComponent implements OnInit {
   countries: any;
   productions: any;
   detailGenresId = '';
+  isLoading$: any;
 
   constructor(
     private service: MyServiceService,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
+    private loaderService:LoaderService
   ) {}
 
   ngOnInit(): void {
+
+
+    this.isLoading$= this.loaderService.isLoading$;
    
     this.getInfo();
 
@@ -41,6 +47,7 @@ export class DetailsComponent implements OnInit {
   }
 
   getInfo() {
+    
     this.route.params.pipe(map(params=> params['id'])).pipe(switchMap(id =>  this.service
       .getDetail(id).pipe(switchMap((details) => of({details, id}))) ))
      

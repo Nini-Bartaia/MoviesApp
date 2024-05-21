@@ -14,6 +14,7 @@ import { LoaderService } from './service/loader.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MoviesComponent } from './page/movies/movies.component';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
     InputSwitchModule,
     InputTextModule,
+    MoviesComponent,
     ProgressBarModule,
     ToolbarModule  ],
   
@@ -38,8 +40,10 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'moviesApp';
 
-  constructor(private route: Router, private service: LoaderService, private cdr: ChangeDetectorRef) {}
+  constructor(private route: Router, private service: LoaderService, private cdr: ChangeDetectorRef, private myService:MyServiceService) {}
 
+  test!:MoviesComponent;
+  
   
   ngAfterViewInit(): void {
     // this.cdr.detectChanges()
@@ -60,6 +64,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   navigateMovies(){
-    this.route.navigate(['/movies']);
+
+    this.route.navigate(['movies'], {queryParams:{with_genre:'', startDate:'', endDate:''}});
   }
+  
 }

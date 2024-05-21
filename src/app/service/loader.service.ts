@@ -12,9 +12,7 @@ export class LoaderService {
   isLoading$ = new BehaviorSubject<boolean>(true);
 
   show(){
-
-
-this.isLoading$.next(true)
+  this.isLoading$.next(true)
 
   }
 

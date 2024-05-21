@@ -7,41 +7,42 @@ import { map } from 'rxjs';
   providedIn: 'root',
 })
 export class MyServiceService {
+
   // ამ ეტაპზე behavior subject ები არ გვჭირდება
   constructor(private http: HttpClient) {}
 
   getMoviesList() {
     return this.http.get<any>(
       `${env.trendingUrl}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
   getLatest() {
     return this.http.get<any>(
       `${env.baseUrl}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
   getOnAirSeries() {
     return this.http.get<any>(
       `${env.onAirUrl}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
   getHeaderList() {
     return this.http.get<any>(
       `${env.headerListUrl}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
   getUpcomingList() {
     return this.http.get<any>(
       `${env.upcomingUrl}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
@@ -49,7 +50,7 @@ export class MyServiceService {
     return this.http
       .get<any>(
         `${env.moviesVideos}${id}/videos`,
-        this.returnHttpParams({ api_key: env.apiKey }),
+        this.returnHttpParams(),
       )
       .pipe(
         map((data: any) => {
@@ -73,28 +74,62 @@ export class MyServiceService {
   getDetail(id: string) {
     return this.http.get<any>(
       `${env.detailsUrl}${id}`,
-      this.returnHttpParams({ api_key: env.apiKey }),
+      this.returnHttpParams(),
     );
   }
 
   getMovieWithGenres(id: string) {
     return this.http.get<any>(
       `${env.movieWithGenres}/movie`,
-      this.returnHttpParams({ with_genres: id, api_key: env.apiKey }),
+      this.returnHttpParams({ with_genres: id }),
     );
   }
 
   getGenresForMovies(){
 
     return this.http.get<any>(
-      `${env.getGenres}`, this.returnHttpParams({api_key:env.apiKey})
+      `${env.getGenres}`, this.returnHttpParams()
     )
   }
-  getAllMovies(){
+  getAllMovies(startDate?:string, endDate?:string, id?:string){
 
-    return this.http.get<any>(
-      `${env.getAllMovies}`, this.returnHttpParams({api_key:env.apiKey})
-    )
+    console.log(startDate)
+    console.log(endDate)
+
+
+    const params: any = {};
+
+    // if (startDate) {
+    //   params['primary_release_date.gte'] = startDate;
+    // }
+  
+    // if (endDate) {
+    //   params['primary_release_date.lte'] = endDate;
+    // }
+
+
+ 
+
+
+    if((startDate && endDate) || id){
+      params['primary_release_date.gte'] = startDate;
+      params['primary_release_date.lte'] = endDate;
+      return this.http.get<any>(
+        `${env.getAllMovies}`, this.returnHttpParams({'primary_release_date.gte': startDate ,'primary_release_date.lte':endDate,with_genres: id })
+      )
+
+    }else{
+
+      return this.http.get<any>(
+        `${env.getAllMovies}`, this.returnHttpParams()
+      ) 
+    }
+    //  Object.keys(params).map(k => console.log(k))
+
+
+    // return this.http.get<any>(
+    //   `${env.getAllMovies}`, this.returnHttpParams({'primary_release_date.gte': startDate ,'primary_release_date.lte':endDate,with_genres: id })
+    // )
   }
 
 

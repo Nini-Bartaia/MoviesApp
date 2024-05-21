@@ -9,4 +9,5 @@ export const routes: Routes = [
 {path:'list', component:ListComponent},
 {path:'movies', component:MoviesComponent},
 {path:'details/:id', component:DetailsComponent}
+
 ];

@@ -39,7 +39,7 @@
         width="420"
         height="315"
         class="w-full h-full border-none"
-        [src]="sanitizeUrl(item.key)"
+        [src]="item.key | safe"
       >
       </iframe>
     </div>
@@ -111,7 +111,7 @@
 <app-list-item
   *ngIf="detailGenreMovies$ | async as detailGenreMovies"
   [list]="detailGenreMovies['results']"
-  [title]="'Upcoming'"
+  [title]="'You may also like'"
 ></app-list-item>
 
 <!-- <div>

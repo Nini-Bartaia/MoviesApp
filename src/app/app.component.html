@@ -1,17 +1,51 @@
 <main class="overflow-scroll overflow-x-hidden overflow-y-hidden bg-black">
+ 
+  <div class="card w-full fixed z-50"  *ngIf="isLoading$ | async">
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
+</div>
+
+
+
+<!-- <div class="loader-container" *ngIf="isLoading$ | async; else content" >
+  <div *ngIf="isLoading$ | async" class="loader"></div>
+</div> -->
+
+<!-- <div  class="card w-full fixed z-50" *ngIf="isLoading$ | async; else content" >
+  <div *ngIf="isLoading$ | async"></div>
+</div> -->
+<!-- 
+  <div class="loader-container" *ngIf="isLoading$ | async " >
+    <div *ngIf="isLoading$ | async" class="loader"></div>
+  </div> -->
+  
+
+  <!-- <ng-template>
+
+
+  </ng-template> -->
   <div
     class="flex flex-row items-center justify-center w-auto text-base text-white bg-black border border-black h-28 font-poppins"
   >
     <p class="mr-5 cursor-pointer" (click)="navigateHome()">Home</p>
-    <p class="mr-5 cursor-pointer">Movies</p>
+    <p class="mr-5 cursor-pointer" (click)="navigateMovies()">Movies</p>
 
     <p-iconField iconPosition="left" class="mr-5">
       <p-inputIcon styleClass="pi pi-search" />
       <input type="text" pInputText placeholder="Search Movies" />
     </p-iconField>
 
-    <p class="mr-5 cursor-pointer">Series</p>
+    <p class="mr-5 cursor-pointer" >Series</p>
+  
+  
+ 
+
     <p class="cursor-pointer">Animation</p>
   </div>
-  <router-outlet />
+
+
+   
+    <router-outlet />
+
+  
+
 </main>

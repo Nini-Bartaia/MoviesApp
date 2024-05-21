@@ -33,7 +33,7 @@
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template let-movie pTemplate="item">
-      <div class="p-3 m-2">
+      <div class="p-3 m-2" (click)="onClick(movie.id)">
         <div class="mb-3 cursor-pointer">
           <div class="img-wrapper">
             <img
@@ -61,18 +61,18 @@
 
 <app-list-item
   *ngIf="trendingMovies$ | async as trendingMovies"
-  [list]="trendingMovies['results'] | slice: 0 : 5"
+  [list]="trendingMovies['results'] | slice: 0 : 4"
   [title]="'Trending'"
 ></app-list-item>
 
 <app-list-item
   *ngIf="seriesArr$ | async as seriesArr"
-  [list]="seriesArr['results'] | slice: 0 : 5"
+  [list]="seriesArr['results'] | slice: 0 : 4"
   [title]="'Latest'"
 ></app-list-item>
 
 <app-list-item
   *ngIf="upcomingList$ | async as upcomingList"
-  [list]="upcomingList['results'] | slice: 0 : 5"
+  [list]="upcomingList['results'] | slice: 0 : 4"
   [title]="'Upcoming'"
 ></app-list-item>

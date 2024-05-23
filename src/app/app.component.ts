@@ -54,8 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
    // this.service.loader.subscribe((res)=>this.isLoading=res)
 
-   this.service.isLoading$.subscribe((res)=>console.log(res))
-
   }
 
   
@@ -66,6 +64,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   navigateMovies(){
 
     this.route.navigate(['movies'], {queryParams:{with_genre:'', startDate:'', endDate:''}});
+  }
+  
+  navigateSeries(){
+
+    this.route.navigate(['series']);
   }
   
 }

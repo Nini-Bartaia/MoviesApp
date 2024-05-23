@@ -10,14 +10,15 @@
 
 
 <div class="flex flex-row w-700 h-24 ml-24">
-<div class="card flex justify-content-center mr-5"  *ngIf="genres$ | async as genres" >
+<div class="card flex justify-content-center mr-5"  *ngIf="genres$ | async as genres">
+     
          <p-multiSelect 
-
             [formControl]="filterFormControl"
             [options]="genres['genres']" 
-            (onChange)="onGenreSelectionChange($event)"
+             (onChange)="onGenreSelectionChange($event)"
             optionLabel="name" 
             placeholder="Select Genre"/>
+     
  </div>
 
 <div class="p-field p-col-12 p-md-4">

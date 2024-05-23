@@ -8,7 +8,8 @@ export const env = {
   upcomingUrl: 'https://api.themoviedb.org/3/movie/upcoming?',
   // moviesVideos:'https://api.themoviedb.org/3/movie/653346/videos?',
   detailsUrl: 'https://api.themoviedb.org/3/movie/',
-
+  seriesUrl:'https://api.themoviedb.org/3/tv/popular?',
+  seriesGenresUrl:'https://api.themoviedb.org/3/genre/tv/list',
   moviesVideos: 'https://api.themoviedb.org/3/movie/',
   movieWithGenres: 'https://api.themoviedb.org/3/discover/',
   getGenres: 'https://api.themoviedb.org/3/genre/movie/list',

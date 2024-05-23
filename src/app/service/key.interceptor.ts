@@ -5,7 +5,6 @@ import { inject } from "@angular/core";
 
 export const KeyInterceptor: HttpInterceptorFn = (req, next) => {
 
-    console.log('intercepotr')
     const loaderService = inject(LoaderService);
 loaderService.show()    
     let newParams = new HttpParams({fromString: req.params.toString()});

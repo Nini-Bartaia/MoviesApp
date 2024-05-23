@@ -29,3 +29,86 @@
     </div>
   }
 </div>
+
+
+
+
+<!-- 
+<div class="mx-10 my-0 card">
+  @for (item of list; track item){
+  <p-carousel
+    class="text-white"
+    [value]="list"
+    [numVisible]="4"
+    [numScroll]="1"
+    [showIndicators]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template let-movie pTemplate="item">
+      <div class="p-3 m-2" (click)="onClick(item.id)">
+        <div class="mb-3 cursor-pointer">
+          <div class="img-wrapper">
+            <img
+              class="zoom"
+              src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
+            />
+            <div class="content fade">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 font-medium">
+          {{ item.title }}
+        </div>
+        <div class="flex justify-content-between align-items-center">
+          <div class="mt-0 text-xl font-semibold">
+            {{ item.popularity }}
+          </div>
+        </div>
+        <app-raiting [voteAverage]="item.vote_average"></app-raiting>
+      </div>
+    </ng-template>
+  </p-carousel>
+}
+</div> -->
+
+
+
+
+<!-- 
+
+<div class="mx-10 my-0 card">
+  <p-carousel
+    class="text-white"
+    [value]="list"
+    [numVisible]="4"
+    [numScroll]="1"
+    [showIndicators]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template let-list pTemplate="item">
+      <div class="p-3 m-2" (click)="onClick(list.id)">
+        <div class="mb-3 cursor-pointer">
+          <div class="img-wrapper">
+            <img
+              class="zoom"
+              src="https://image.tmdb.org/t/p/w500{{ list.poster_path }}"
+            />
+            <div class="content fade">
+              {{ list.title }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 font-medium">
+          
+        </div>
+        <div class="flex justify-content-between align-items-center">
+          <div class="mt-0 text-xl font-semibold">
+            {{ list.popularity }}
+          </div>
+        </div>
+        <app-raiting [voteAverage]="list.vote_average"></app-raiting>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div> -->

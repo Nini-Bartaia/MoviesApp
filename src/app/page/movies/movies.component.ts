@@ -6,7 +6,7 @@ import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { ScrollerModule } from 'primeng/scroller';
 import { DragDropModule } from 'primeng/dragdrop';
 import { DropdownModule } from 'primeng/dropdown';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter, of, switchMap, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MyServiceService } from '../../service/my-service.service';
 import { ListItemComponent } from '../../shared/list-item/list-item.component';
@@ -14,7 +14,6 @@ import { LoaderService } from '../../service/loader.service';
 import { SliderModule } from 'primeng/slider';
 import {CalendarModule} from 'primeng/calendar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { start } from 'repl';
 
 @Component({
   selector: 'app-movies',
@@ -35,10 +34,18 @@ export class MoviesComponent implements OnInit, AfterViewInit{
   rangeValues: number[] = [1700, 2024];
   rangeDates!: Date[];
   str=''
+  private selectedValuesSubject = new BehaviorSubject<any[]>([]);
+  // selectedValue$ = this.selectedValuesSubject.asObservable();
   startDate:string=''
   genreId:string=''
-  endDate:string=''
-  selectedValue!:any;
+  endDate:string='' 
+  newArr!:any[];
+  // selectedValue$: Observable<any[]> = of([]);
+  // selectedValue$: Observable<any[]> = new Observable<any[]>(observer => {
+  //   observer.next([]);
+  // });
+  selectedValue$: Observable<any> = of();
+  genresArr:any[]=[]
   updatedValue!:any;
   filterFormControl: FormControl<any | null> = new FormControl<
     any | null
@@ -49,64 +56,54 @@ export class MoviesComponent implements OnInit, AfterViewInit{
  
   
  
-  constructor(private service: MyServiceService, private cdr: ChangeDetectorRef, private loaderService:LoaderService, private route:ActivatedRoute, private router:Router){}
+  constructor(
+    private service: MyServiceService, 
+    private cdr: ChangeDetectorRef, 
+    private loaderService:LoaderService, 
+    private route:ActivatedRoute, 
+    private router:Router
+  ){}
   
   ngOnInit() {
 
 
+      
     this.route.queryParams.subscribe((res)=>{
-      console.log(res['with_genre'])
+    
 
       if(res['with_genre']|| res['startDate'] || res['endDate']){
 
         this.movies$=this.service.getAllMovies( res['startDate'] , res['endDate'],res['with_genre'])
-        // console.log( this.formGroup.controls['selectedCities'])
-        
-        //  console.log(this.filterFormControl.value)
+ 
+        this.genres$ = this.service.getGenresForMovies().pipe(
+          tap((genresRes) => {
+            const ids = res['with_genre'].split(',').map(Number);
+            const filteredGenres = genresRes['genres'].filter((genre:any) => ids.includes(genre.id));
+            filteredGenres.forEach((genre:any) => {
+              if (!this.genresArr.some((existingGenre:any) => existingGenre.id === genre.id)) {
+                this.genresArr.push(genre);
+              }
+            });
+     
+             this.filterFormControl.setValue(this.genresArr);
+            })
+        );
+ 
 
-        //  this.filterFormControl.setValue(this.selectedValue)
 
-        //  this.filterFormControl.value.forEach((item:any)=> this.updatedValue=item.name) 
-         
-
-        
-        
 
       }
-      // else if(res['with_genre']==' '){
-
-      //   // this.selectedValue.forEach((item:any)=> this.updatedValue=item.name) 
-
-      //   console.log(this.filterFormControl)
-      //        }
-
       else{
         this.movies$= this.service.getAllMovies();
+        this.genres$=this.service.getGenresForMovies()
 
       }
     })
 
-      this.genres$= this.service.getGenresForMovies()
-
-
-    //   this.numForm = new FormGroup({
-    //     inputNum: new FormControl<number[] | null>([])
-    // });
-
-
- 
 
       this.isLoading$=this.loaderService.isLoading$;
 
-
-    //  this.movies$= this.service.getAllMovies();
-  
-  
-    this.genres$.subscribe((res)=>{
-
-      this.selectedValue=res['genres'][0].name
-      console.log(res['genres'][0].name)
-    })
+   // this.genres$=this.service.getGenresForMovies()
 
 }
 
@@ -114,61 +111,99 @@ ngAfterViewInit(): void {
   this.cdr.detectChanges()
 }
 
+// appendChosenGenres() {
+//   this.route.queryParams.pipe(
+//     switchMap((queryParamsRes: any) => {
+//       this.genres$.subscribe(res => {
+//         // console.log(res)
+//         const chosen = res['genres'].filter(queryParamsRes.with_genre.includes())
+//         console.log(chosen)
+//       })
+//       return this.genres$.pipe(
+//         filter(gernresRes => queryParamsRes.with_genre.includes(gernresRes.id))
+//       )
+//     }),
+//     tap(res => console.log(res)) 
+//   )
+//   .subscribe(params => {
+//     console.log(params);
+// });
+  
+//   //this.filterFormControl.patchValue({});
+
+// }
+// appendChosenGenres() {
+//   this.route.queryParams.pipe(
+//     switchMap((queryParamsRes: any) => {
+//       this.genres$.subscribe(res => {
+//         // console.log(res)
+//         const chosen = res['genres'].filter(queryParamsRes.with_genre?.includes);
+//       })
+//       return this.genres$.pipe(
+//         filter(gernresRes => {
+//           if (queryParamsRes.with_genre && gernresRes.id) {
+//             return queryParamsRes.with_genre.includes(gernresRes.id);
+//           } else {
+//             return false;
+//           }
+//         })
+//       )
+//     }),
+//     tap(res => console.log(res)) 
+//   )
+//   .subscribe(params => {
+//     let str = '';
+//     params.forEach((item: any) => {
+//       const id = item.id;
+//       if (id && !str.includes(id)) {
+//         str += id + ',';
+//       }
+//     });
+//     this.filterFormControl.patchValue({ genres: str });
+//   });
+// }
 onGenreSelectionChange(event: any) {
 
-  // this.selectedValue=event.value
+ 
+ 
+  // const selectedGenreIds = event.value.map((item: any) => item.id);
+
+  //  this.str = this.str.split(',').filter((id: string) => selectedGenreIds.includes(id)).join(',');
+
+  //  event.value.forEach((item: any) => {
+  //   if (!this.str.includes(item.id)) {
+  //     this.str += (this.str.length > 0 ? ',' : '') + item.id;
+  //   }
+  // });
+
+  event.value.filter((item: any) => !this.str.includes(item.id))
+  .forEach((item:any)=> this.str+=item.id + ',')  //!!!!
+
+
   
-  event.value.forEach((item:any)=> console.log(this.str+=item.id +','))
-  event.value.forEach((item:any)=> this.selectedValue=item.name)
+  // this.selectedValue$.pipe(tap((res)=>{
 
-  this.genreId=this.str
+  //   const selectValues=res.filter((item:any)=> !this.str.includes(res.id))
+  //   selectValues.forEach((val:any)=>console.log(val) )
+  // }))
 
 
- // this.formGroup.controls['selectedCities'].setValue(event.value);
-  // this.getMovieWithGenre$= this.service.getMovieWithGenres(str)
-  //this.movies$=this.service.getMovieWithGenres(str);
+   this.genreId=this.str //!!!!
+    
 
   this.movies$=this.service.getAllMovies('','',this.str)
   this.changeQuery()
 
+
+ 
   //this.str=''
  }
 
 
-
-    // numberChange(event:any){
-
-    //   console.log(event.values)
-
-    // }
-
-
-    // inputChange(event:any){
-
-
-    //   console.log(event)
-
-    // }
+ 
 
     inputChange() {
-      // console.log(event)
-      // let startFormatted;
-      // let endFormatted;
      
-      // if (event) {
-      //   let startDate = event;
-      //   let endDate = event;
-    
-      //    startFormatted = this.formatDate(startDate);
-      //  let start=startFormatted
-      //    endFormatted = this.formatDate(endDate);
-      // let end=endFormatted
-    
-      //   console.log(startFormatted);
-      //   console.log(endFormatted)
-     
-      // }
- 
      
       let startFormatted;
       let endFormatted;
@@ -209,12 +244,9 @@ onGenreSelectionChange(event: any) {
 
 
     changeQuery() {
-      this.router.navigate(['.'], { relativeTo: this.route, queryParams: { with_genre:this.genreId, startDate:this.startDate, endDate:this.endDate}});
+      this.router.navigate(['.'], { relativeTo: this.route, queryParams: { with_genre:this.genreId, startDate:this.startDate, endDate:this.endDate}, queryParamsHandling:''});
   }
-
-  // customDisplayValueTemplate(item: any) {
-  //   return item.name ;
-  // }
+ 
 
 
 }

@@ -2,14 +2,25 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from '../../environments/env';
 import { headers } from '../../types/headerType';
-import { map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class MyServiceService {
 
+  // private selectedValuesSubject = new BehaviorSubject<any[]>([]);
+  // selectedValues$ = this.selectedValuesSubject.asObservable();
+
   // ამ ეტაპზე behavior subject ები არ გვჭირდება
   constructor(private http: HttpClient) {}
+
+  // setSelectedValues(values: any[]) {
+  //   this.selectedValuesSubject.next(values);
+  // }
+
+  // getSelectedValues() {
+  //   return this.selectedValuesSubject.getValue();
+  // }
 
   getMoviesList() {
     return this.http.get<any>(
@@ -46,6 +57,19 @@ export class MyServiceService {
     );
   }
 
+  getSeries(){
+
+    return this.http.get<any>(
+      `${env.seriesUrl}`,
+     this.returnHttpParams());
+  }
+
+  getSeriesGenres(){
+
+    return this.http.get<any>(
+      `${env.seriesGenresUrl}`,
+     this.returnHttpParams());
+  }
   getVideos(id: string) {
     return this.http
       .get<any>(
@@ -91,12 +115,8 @@ export class MyServiceService {
       `${env.getGenres}`, this.returnHttpParams()
     )
   }
+
   getAllMovies(startDate?:string, endDate?:string, id?:string){
-
-    console.log(startDate)
-    console.log(endDate)
-
-
     const params: any = {};
 
     // if (startDate) {

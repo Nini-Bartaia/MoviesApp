@@ -3,13 +3,13 @@ import { ListComponent } from './page/list/list.component';
 import { DetailsComponent } from './shared/details/details.component';
 import { MoviesComponent } from './page/movies/movies.component';
 import { SeriesComponent } from './page/series/series.component';
+import { CollectionComponent } from './page/collection/collection.component';
 
 export const routes: Routes = [
-
-{path:'', redirectTo:'list', pathMatch:'full'},
-{path:'list', component:ListComponent},
-{path:'movies', component:MoviesComponent},
-{path:'details/:id', component:DetailsComponent},
-{path:'series', component:SeriesComponent}
-
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
+  { path: 'list', component: ListComponent },
+  { path: 'movies', component: MoviesComponent },
+  { path: 'details/:id', component: DetailsComponent },
+  { path: 'series', component: SeriesComponent },
+  { path: 'collection', component: CollectionComponent },
 ];

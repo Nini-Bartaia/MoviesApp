@@ -1,4 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -22,7 +28,8 @@ import { MoviesComponent } from './page/movies/movies.component';
   imports: [
     RouterModule,
     RouterOutlet,
-    TagModule,CommonModule,
+    TagModule,
+    CommonModule,
     CarouselModule,
     InputIconModule,
     IconFieldModule,
@@ -31,44 +38,65 @@ import { MoviesComponent } from './page/movies/movies.component';
     InputTextModule,
     MoviesComponent,
     ProgressBarModule,
-    ToolbarModule  ],
-  
+    ToolbarModule,
+  ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'moviesApp';
+  searchTerm: string = '';
 
-  constructor(private route: Router, private service: LoaderService, private cdr: ChangeDetectorRef, private myService:MyServiceService) {}
+  constructor(
+    private route: Router,
+    private service: LoaderService,
+    private cdr: ChangeDetectorRef,
+    private myService: MyServiceService,
+  ) {}
 
-  test!:MoviesComponent;
-  
-  
+  test!: MoviesComponent;
+
   ngAfterViewInit(): void {
     // this.cdr.detectChanges()
   }
 
-  isLoading$= this.service.isLoading$;
+  isLoading$ = this.service.isLoading$;
 
   ngOnInit(): void {
-   // this.service.loader.subscribe((res)=>this.isLoading=res)
-
+    // this.service.loader.subscribe((res)=>this.isLoading=res)
   }
 
-  
   navigateHome() {
     this.route.navigate(['/list']);
   }
 
-  navigateMovies(){
-
-    this.route.navigate(['movies'], {queryParams:{with_genre:'', startDate:'', endDate:''}});
+  navigateMovies() {
+    this.route.navigate(['movies'], {
+      queryParams: { with_genre: '', startDate: '', endDate: '' },
+    });
   }
-  
-  navigateSeries(){
 
-    this.route.navigate(['series']);
+  navigateSeries() {
+    this.route.navigate(['series'], {
+      queryParams: { with_genre: '', startDate: '', endDate: '' },
+    });
   }
-  
+
+  navigateCollection() {
+    this.route.navigate(['collection']);
+  }
+
+  // onInputChange(event: any) {
+  //   console.log(event.target.value);
+
+  //   this.myService.searchMovie(event.target.value);
+  // }
+
+  // onEnterPressed(event: any) {
+  //   console.log(event.target.value);
+  //   this.searchTerm = event.target.value;
+  //   this.myService.searchMovie(this.searchTerm);
+  // }
 }

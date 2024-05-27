@@ -2,80 +2,68 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from '../../environments/env';
 import { headers } from '../../types/headerType';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class MyServiceService {
-
-  // private selectedValuesSubject = new BehaviorSubject<any[]>([]);
-  // selectedValues$ = this.selectedValuesSubject.asObservable();
+  private selectedItemsSubject: BehaviorSubject<any> = new BehaviorSubject<
+    any[]
+  >([]);
+  selectedItems$: Observable<any> = this.selectedItemsSubject.asObservable();
 
   // ამ ეტაპზე behavior subject ები არ გვჭირდება
   constructor(private http: HttpClient) {}
 
-  // setSelectedValues(values: any[]) {
-  //   this.selectedValuesSubject.next(values);
-  // }
+  addToSelectedItems(item: any) {
+    const currentItems = this.selectedItemsSubject.getValue();
 
-  // getSelectedValues() {
-  //   return this.selectedValuesSubject.getValue();
-  // }
+    this.selectedItemsSubject.next([...currentItems, item]);
+    console.log(this.selectedItemsSubject.getValue());
+
+    // return this.http.post<any>(
+    //   `${env.watchlistUrl}`,
+    //   this.returnHttpParams({ RAW_BODY: item }),
+    // );
+  }
+
+  getWatchlist() {
+    return this.http.get<any>(`${env.getwatchlist}`, this.returnHttpParams());
+  }
 
   getMoviesList() {
-    return this.http.get<any>(
-      `${env.trendingUrl}`,
-      this.returnHttpParams(),
-    );
+    return this.http.get<any>(`${env.trendingUrl}`, this.returnHttpParams());
   }
 
   getLatest() {
-    return this.http.get<any>(
-      `${env.baseUrl}`,
-      this.returnHttpParams(),
-    );
+    return this.http.get<any>(`${env.baseUrl}`, this.returnHttpParams());
   }
 
   getOnAirSeries() {
-    return this.http.get<any>(
-      `${env.onAirUrl}`,
-      this.returnHttpParams(),
-    );
+    return this.http.get<any>(`${env.onAirUrl}`, this.returnHttpParams());
   }
 
   getHeaderList() {
-    return this.http.get<any>(
-      `${env.headerListUrl}`,
-      this.returnHttpParams(),
-    );
+    return this.http.get<any>(`${env.headerListUrl}`, this.returnHttpParams());
   }
 
   getUpcomingList() {
+    return this.http.get<any>(`${env.upcomingUrl}`, this.returnHttpParams());
+  }
+
+  getSeries() {
+    return this.http.get<any>(`${env.seriesUrl}`, this.returnHttpParams());
+  }
+
+  getSeriesGenres() {
     return this.http.get<any>(
-      `${env.upcomingUrl}`,
+      `${env.seriesGenresUrl}`,
       this.returnHttpParams(),
     );
   }
-
-  getSeries(){
-
-    return this.http.get<any>(
-      `${env.seriesUrl}`,
-     this.returnHttpParams());
-  }
-
-  getSeriesGenres(){
-
-    return this.http.get<any>(
-      `${env.seriesGenresUrl}`,
-     this.returnHttpParams());
-  }
   getVideos(id: string) {
     return this.http
-      .get<any>(
-        `${env.moviesVideos}${id}/videos`,
-        this.returnHttpParams(),
-      )
+      .get<any>(`${env.moviesVideos}${id}/videos`, this.returnHttpParams())
       .pipe(
         map((data: any) => {
           const trailers = data.results.filter(
@@ -109,50 +97,53 @@ export class MyServiceService {
     );
   }
 
-  getGenresForMovies(){
-
-    return this.http.get<any>(
-      `${env.getGenres}`, this.returnHttpParams()
-    )
+  getGenresForMovies() {
+    return this.http.get<any>(`${env.getGenres}`, this.returnHttpParams());
   }
 
-  getAllMovies(startDate?:string, endDate?:string, id?:string){
+  getAllMovies(startDate?: string, endDate?: string, id?: string) {
     const params: any = {};
 
-    // if (startDate) {
-    //   params['primary_release_date.gte'] = startDate;
-    // }
-  
-    // if (endDate) {
-    //   params['primary_release_date.lte'] = endDate;
-    // }
-
-
- 
-
-
-    if((startDate && endDate) || id){
+    if ((startDate && endDate) || id) {
       params['primary_release_date.gte'] = startDate;
       params['primary_release_date.lte'] = endDate;
       return this.http.get<any>(
-        `${env.getAllMovies}`, this.returnHttpParams({'primary_release_date.gte': startDate ,'primary_release_date.lte':endDate,with_genres: id })
-      )
-
-    }else{
-
-      return this.http.get<any>(
-        `${env.getAllMovies}`, this.returnHttpParams()
-      ) 
+        `${env.getAllMovies}`,
+        this.returnHttpParams({
+          'primary_release_date.gte': startDate,
+          'primary_release_date.lte': endDate,
+          with_genres: id,
+        }),
+      );
+    } else {
+      return this.http.get<any>(`${env.getAllMovies}`, this.returnHttpParams());
     }
-    //  Object.keys(params).map(k => console.log(k))
-
-
-    // return this.http.get<any>(
-    //   `${env.getAllMovies}`, this.returnHttpParams({'primary_release_date.gte': startDate ,'primary_release_date.lte':endDate,with_genres: id })
-    // )
   }
 
+  getAllSeries(startDate?: string, endDate?: string, id?: string) {
+    const params: any = {};
+    if ((startDate && endDate) || id) {
+      params['first_air_date.gte'] = startDate;
+      params['first_air_date.lte'] = endDate;
+      return this.http.get<any>(
+        `${env.getSeriesUrl}`,
+        this.returnHttpParams({
+          'first_air_date.gte': startDate,
+          'first_air_date.lte': endDate,
+          with_genres: id,
+        }),
+      );
+    } else {
+      return this.http.get<any>(`${env.getSeriesUrl}`, this.returnHttpParams());
+    }
+  }
 
+  searchMovie(movie: string) {
+    return this.http.get<any>(
+      `${env.searchUrl}`,
+      this.returnHttpParams({ query: movie }),
+    );
+  }
 
   returnHttpParams(object?: any) {
     //ეს ფუნქცია დააბრუნებს პარამსებს და ხელით არ დაგჭირდება გაწერა, გადმოეცი ობიეტი რა პარამსებიც გჭირდება იმის მიხედვით

@@ -14,12 +14,25 @@
       class="w-[300px] h-full mr-5 text-white cursor-pointer"
       (click)="onClick(item.id)"
     >
+    <div class="flex flex-col">
       <img
-        [src]="'https://image.tmdb.org/t/p/w500' + item.poster_path"
-        alt="movie poster"
-        class="w-full border-round h-72"
-      />
+      [src]="'https://image.tmdb.org/t/p/w500' + item.poster_path"
+      alt="movie poster"
+      class="w-full border-round h-72"
+      
+    />
+  
+    <i class="pi pi-heart absolute mt-4 ml-4 " style="font-size: 2rem"></i>
+    <!-- <i class="pi pi-heart-fill absolute   mt-4 ml-4 text-rose-600	 " style="font-size: 2rem"></i> -->
+    <button (click)="saveToCollection(item.id,$event)" class="absolute ml-15 mt-4 cursor-pointer border-0 bg-transparent	">
+      <i class="pi pi-bookmark " style="font-size: 2rem" ></i>
 
+    </button>
+    <!-- <i class="pi pi-bookmark-fill absolute ml-15 mt-4 text-slate-200	" style="font-size: 2rem"></i> -->
+
+
+    </div>
+   
       <p class="font-bold text-white font-poppins">
         {{ item.original_title }} {{ item.original_name }}
       </p>

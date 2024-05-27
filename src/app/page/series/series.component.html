@@ -2,22 +2,22 @@
 
 
 
-<!-- <div class="flex flex-row w-700 h-24 ml-24">
+<div class="flex flex-row w-700 h-24 ml-24">
     <div class="card flex justify-content-center mr-5"  *ngIf="seriesGenres$ | async as genres">
          
              <p-multiSelect 
-                [options]="genres['genres']" 
                 (onChange)="onGenreSelectionChange($event)"
+                [options]="genres['genres']" 
                 optionLabel="name" 
                 placeholder="Select Genre"/>
          
      </div>
     
     <div class="p-field p-col-12 p-md-4">
-        <p-calendar placeholder="Select Date Range" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range" (onSelect)="inputChange()"></p-calendar>
+        <p-calendar placeholder="Select Date Range" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range" (onSelect)="inputChange()" ></p-calendar>
     </div>
 
-    </div> -->
+    </div>
 
 
 

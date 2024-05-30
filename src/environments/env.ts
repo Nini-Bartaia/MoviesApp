@@ -6,7 +6,6 @@ export const env = {
   onAirUrl: 'https://api.themoviedb.org/3/tv/on_the_air?',
   headerListUrl: 'https://api.themoviedb.org/3/tv/top_rated?',
   upcomingUrl: 'https://api.themoviedb.org/3/movie/upcoming?',
-  // moviesVideos:'https://api.themoviedb.org/3/movie/653346/videos?',
   detailsUrl: 'https://api.themoviedb.org/3/movie/',
   seriesUrl: 'https://api.themoviedb.org/3/tv/popular?',
   seriesGenresUrl: 'https://api.themoviedb.org/3/genre/tv/list',

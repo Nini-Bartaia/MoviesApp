@@ -4,57 +4,16 @@
     <p-progressBar mode="indeterminate" [style]="{'height': '6px'}" />
 </div>
 
-
-
-<!-- <div class="loader-container" *ngIf="isLoading$ | async; else content" >
-  <div *ngIf="isLoading$ | async" class="loader"></div>
-</div> -->
-
-<!-- <div  class="card w-full fixed z-50" *ngIf="isLoading$ | async; else content" >
-  <div *ngIf="isLoading$ | async"></div>
-</div> -->
-<!-- 
-  <div class="loader-container" *ngIf="isLoading$ | async " >
-    <div *ngIf="isLoading$ | async" class="loader"></div>
-  </div> -->
-  
-
-  <!-- <ng-template>
-
-
-  </ng-template> -->
   <div
     class="flex flex-row items-center justify-center w-auto text-base text-white bg-black border border-black h-28 font-poppins"
   >
-    <p class="mr-5 cursor-pointer" (click)="navigateHome()">Home</p>
-    <p class="mr-5 cursor-pointer" (click)="navigateMovies()">Movies</p>
+    <p class="mr-5 cursor-pointer" (click)="navigate('/list')">Home</p>
+    <p class="mr-5 cursor-pointer" (click)="navigate('movies')">Movies</p>
 
-    <!-- <p-iconField iconPosition="left" class="mr-5">
-      <p-inputIcon styleClass="pi pi-search" />
-      <input type="text" pInputText placeholder="Search Movies" (keyup.enter)="onEnterPressed($event)" />
-    </p-iconField> -->
+    <p class="mr-5 cursor-pointer" (click)="navigate('series')">Series</p>
 
-    <p class="mr-5 cursor-pointer" (click)="navigateSeries()">Series</p>
-
-    <p class="cursor-pointer" (click)="navigateCollection()" >Collections</p>
+    <p class="cursor-pointer" (click)="navigate('collection')" >Collections</p>
   </div>
-
-<!-- 
-  <div class="fixed -right-52 z-5000 font-normal text-base cursor-pointer ">
-
-    <div class="scroll-pt-0 scroll-pr-0	scroll-pb-0	scroll-pl-3   border-2	border-r-0 flex gap-3 items-center h-16 w-96 border-worth-of-red">
-
-      <div class="rounded-full	cursor-pointer text-rose-500">
-        <i class="pi pi-heart" style="font-size: 1.5rem"></i>
-        <p class="text-center">Favourite Movies</p>
-      </div>
-
-    </div>
-
-
-  </div> -->
-
-
    
     <router-outlet />
 

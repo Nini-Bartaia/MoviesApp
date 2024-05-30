@@ -24,6 +24,7 @@ import { LoaderService } from '../../service/loader.service';
 import { SliderModule } from 'primeng/slider';
 import { CalendarModule } from 'primeng/calendar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { changeQuery } from '../../shared/models/query';
 
 @Component({
   selector: 'app-movies',
@@ -48,8 +49,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MoviesComponent implements OnInit, AfterViewInit {
   cities!: any[];
-
-  // formGroup!: FormGroup;
   numForm!: FormGroup;
   genres$!: Observable<any>;
   movies$!: Observable<any>;
@@ -58,23 +57,14 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   rangeValues: number[] = [1700, 2024];
   rangeDates!: Date[];
   str = '';
-  private selectedValuesSubject = new BehaviorSubject<any[]>([]);
-  // selectedValue$ = this.selectedValuesSubject.asObservable();
   startDate: string = '';
   genreId: string = '';
   endDate: string = '';
   newArr!: any[];
-  // selectedValue$: Observable<any[]> = of([]);
-  // selectedValue$: Observable<any[]> = new Observable<any[]>(observer => {
-  //   observer.next([]);
-  // });
   selectedValue$: Observable<any> = of();
   genresArr: any[] = [];
   updatedValue!: any;
   filterFormControl: FormControl<any | null> = new FormControl<any | null>('');
-  // formGroup = new FormGroup({
-  //   selectedCities: new FormControl<any[] | null>([])
-  // })
 
   constructor(
     private service: MyServiceService,
@@ -85,6 +75,23 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.maintainState();
+
+    this.isLoading$ = this.loaderService.isLoading$;
+  }
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
+
+  onGenreSelectionChange(event: any) {
+    this.str = '';
+    event.value.forEach((item: any) => (this.str += item.id + ','));
+    this.movies$ = this.service.getAllMovies('', '', this.str);
+    this.changeQuery();
+  }
+
+  maintainState() {
     this.route.queryParams.subscribe((res) => {
       if (res['with_genre'] || res['startDate'] || res['endDate']) {
         this.movies$ = this.service.getAllMovies(
@@ -118,94 +125,6 @@ export class MoviesComponent implements OnInit, AfterViewInit {
         this.genres$ = this.service.getGenresForMovies();
       }
     });
-
-    this.isLoading$ = this.loaderService.isLoading$;
-
-    // this.genres$=this.service.getGenresForMovies()
-  }
-
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
-  }
-
-  // appendChosenGenres() {
-  //   this.route.queryParams.pipe(
-  //     switchMap((queryParamsRes: any) => {
-  //       this.genres$.subscribe(res => {
-  //         // console.log(res)
-  //         const chosen = res['genres'].filter(queryParamsRes.with_genre.includes())
-  //         console.log(chosen)
-  //       })
-  //       return this.genres$.pipe(
-  //         filter(gernresRes => queryParamsRes.with_genre.includes(gernresRes.id))
-  //       )
-  //     }),
-  //     tap(res => console.log(res))
-  //   )
-  //   .subscribe(params => {
-  //     console.log(params);
-  // });
-
-  //   //this.filterFormControl.patchValue({});
-
-  // }
-  // appendChosenGenres() {
-  //   this.route.queryParams.pipe(
-  //     switchMap((queryParamsRes: any) => {
-  //       this.genres$.subscribe(res => {
-  //         // console.log(res)
-  //         const chosen = res['genres'].filter(queryParamsRes.with_genre?.includes);
-  //       })
-  //       return this.genres$.pipe(
-  //         filter(gernresRes => {
-  //           if (queryParamsRes.with_genre && gernresRes.id) {
-  //             return queryParamsRes.with_genre.includes(gernresRes.id);
-  //           } else {
-  //             return false;
-  //           }
-  //         })
-  //       )
-  //     }),
-  //     tap(res => console.log(res))
-  //   )
-  //   .subscribe(params => {
-  //     let str = '';
-  //     params.forEach((item: any) => {
-  //       const id = item.id;
-  //       if (id && !str.includes(id)) {
-  //         str += id + ',';
-  //       }
-  //     });
-  //     this.filterFormControl.patchValue({ genres: str });
-  //   });
-  // }
-  onGenreSelectionChange(event: any) {
-    // const selectedGenreIds = event.value.map((item: any) => item.id);
-
-    //  this.str = this.str.split(',').filter((id: string) => selectedGenreIds.includes(id)).join(',');
-
-    //  event.value.forEach((item: any) => {
-    //   if (!this.str.includes(item.id)) {
-    //     this.str += (this.str.length > 0 ? ',' : '') + item.id;
-    //   }
-    // });
-
-    this.str = '';
-    event.value.forEach((item: any) => (this.str += item.id + ',')); //!!!!
-
-    // this.selectedValue$.pipe(tap((res)=>{
-
-    //   const selectValues=res.filter((item:any)=> !this.str.includes(res.id))
-    //   selectValues.forEach((val:any)=>console.log(val) )
-    // }))
-
-    //this.genreId=this.str //!!!!
-    console.log(this.genreId);
-
-    this.movies$ = this.service.getAllMovies('', '', this.str);
-    this.changeQuery();
-
-    //this.str=''
   }
 
   inputChange() {
@@ -242,13 +161,12 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   }
 
   changeQuery() {
-    this.router.navigate(['.'], {
-      relativeTo: this.route,
-      queryParams: {
-        with_genre: this.str,
-        startDate: this.startDate,
-        endDate: this.endDate,
-      },
-    });
+    changeQuery(
+      this.router,
+      this.route,
+      this.str,
+      this.startDate,
+      this.endDate,
+    );
   }
 }

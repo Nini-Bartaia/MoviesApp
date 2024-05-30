@@ -1,14 +1,14 @@
 <div class="flex flex-row justify-between w-92">
   <h2 class="mx-24 my-5 text-white">{{ title }}</h2>
 
-  <button class="bg-transparent border-none cursor-pointer">
+  <button class="bg-transparent border-none cursor-pointer"  (click)="onClicked($event)">
     <h2 class="text-white">
       View All <i class="pi pi-eye" style="font-size: 1rem"></i>
     </h2>
   </button>
 </div>
 
-<div class="flex flex-row flex-wrap w-5/6 mx-24 mb-96">
+<div class="flex flex-row flex-wrap w-5/6 mx-24 ">
   @for (item of list; track item) {
     <div
       class="w-[300px] h-full mr-5 text-white cursor-pointer"
@@ -23,14 +23,10 @@
     />
   
     <i class="pi pi-heart absolute mt-4 ml-4 " style="font-size: 2rem"></i>
-    <!-- <i class="pi pi-heart-fill absolute   mt-4 ml-4 text-rose-600	 " style="font-size: 2rem"></i> -->
-    <button (click)="saveToCollection(item.id,$event)" class="absolute ml-15 mt-4 cursor-pointer border-0 bg-transparent	">
+     <button (click)="saveToCollection(item.id,$event)" class="absolute ml-15 mt-4 cursor-pointer border-0 bg-transparent	">
       <i class="pi pi-bookmark " style="font-size: 2rem" ></i>
 
     </button>
-    <!-- <i class="pi pi-bookmark-fill absolute ml-15 mt-4 text-slate-200	" style="font-size: 2rem"></i> -->
-
-
     </div>
    
       <p class="font-bold text-white font-poppins">
@@ -43,85 +39,4 @@
   }
 </div>
 
-
-
-
-<!-- 
-<div class="mx-10 my-0 card">
-  @for (item of list; track item){
-  <p-carousel
-    class="text-white"
-    [value]="list"
-    [numVisible]="4"
-    [numScroll]="1"
-    [showIndicators]="false"
-    [responsiveOptions]="responsiveOptions"
-  >
-    <ng-template let-movie pTemplate="item">
-      <div class="p-3 m-2" (click)="onClick(item.id)">
-        <div class="mb-3 cursor-pointer">
-          <div class="img-wrapper">
-            <img
-              class="zoom"
-              src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
-            />
-            <div class="content fade">
-              {{ item.title }}
-            </div>
-          </div>
-        </div>
-        <div class="mb-3 font-medium">
-          {{ item.title }}
-        </div>
-        <div class="flex justify-content-between align-items-center">
-          <div class="mt-0 text-xl font-semibold">
-            {{ item.popularity }}
-          </div>
-        </div>
-        <app-raiting [voteAverage]="item.vote_average"></app-raiting>
-      </div>
-    </ng-template>
-  </p-carousel>
-}
-</div> -->
-
-
-
-
-<!-- 
-
-<div class="mx-10 my-0 card">
-  <p-carousel
-    class="text-white"
-    [value]="list"
-    [numVisible]="4"
-    [numScroll]="1"
-    [showIndicators]="false"
-    [responsiveOptions]="responsiveOptions"
-  >
-    <ng-template let-list pTemplate="item">
-      <div class="p-3 m-2" (click)="onClick(list.id)">
-        <div class="mb-3 cursor-pointer">
-          <div class="img-wrapper">
-            <img
-              class="zoom"
-              src="https://image.tmdb.org/t/p/w500{{ list.poster_path }}"
-            />
-            <div class="content fade">
-              {{ list.title }}
-            </div>
-          </div>
-        </div>
-        <div class="mb-3 font-medium">
-          
-        </div>
-        <div class="flex justify-content-between align-items-center">
-          <div class="mt-0 text-xl font-semibold">
-            {{ list.popularity }}
-          </div>
-        </div>
-        <app-raiting [voteAverage]="list.vote_average"></app-raiting>
-      </div>
-    </ng-template>
-  </p-carousel>
-</div> -->
+ 

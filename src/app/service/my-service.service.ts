@@ -12,24 +12,7 @@ export class MyServiceService {
   >([]);
   selectedItems$: Observable<any> = this.selectedItemsSubject.asObservable();
 
-  // ამ ეტაპზე behavior subject ები არ გვჭირდება
   constructor(private http: HttpClient) {}
-
-  addToSelectedItems(item: any) {
-    const currentItems = this.selectedItemsSubject.getValue();
-
-    this.selectedItemsSubject.next([...currentItems, item]);
-    console.log(this.selectedItemsSubject.getValue());
-
-    // return this.http.post<any>(
-    //   `${env.watchlistUrl}`,
-    //   this.returnHttpParams({ RAW_BODY: item }),
-    // );
-  }
-
-  getWatchlist() {
-    return this.http.get<any>(`${env.getwatchlist}`, this.returnHttpParams());
-  }
 
   getMoviesList() {
     return this.http.get<any>(`${env.trendingUrl}`, this.returnHttpParams());
@@ -146,7 +129,6 @@ export class MyServiceService {
   }
 
   returnHttpParams(object?: any) {
-    //ეს ფუნქცია დააბრუნებს პარამსებს და ხელით არ დაგჭირდება გაწერა, გადმოეცი ობიეტი რა პარამსებიც გჭირდება იმის მიხედვით
     let queryParams = new HttpParams();
     object &&
       Object.keys(object).forEach(

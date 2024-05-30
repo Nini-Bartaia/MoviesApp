@@ -1,7 +1,3 @@
-<p>series works!</p>
-
-
-
 <div class="flex flex-row w-700 h-24 ml-24">
     <div class="card flex justify-content-center mr-5"  *ngIf="seriesGenres$ | async as genres">
          
@@ -18,18 +14,9 @@
     </div>
 
     </div>
-
-
-
-    
+ 
 <app-list-item
 *ngIf="series$ | async as series"
 [list]="series['results']"
 [title]="'Series'">
 </app-list-item>
-
-
-    
-<!-- <div class="loader-container" *ngIf="isLoading$ | async">
-    <div class="loader"></div>
-  </div> -->

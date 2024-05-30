@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -17,8 +15,6 @@ import { TagModule } from 'primeng/tag';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MyServiceService } from './service/my-service.service';
 import { LoaderService } from './service/loader.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MoviesComponent } from './page/movies/movies.component';
 
@@ -45,58 +41,18 @@ import { MoviesComponent } from './page/movies/movies.component';
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent {
   title = 'moviesApp';
   searchTerm: string = '';
+  test!: MoviesComponent;
+  isLoading$ = this.service.isLoading$;
 
   constructor(
     private route: Router,
     private service: LoaderService,
-    private cdr: ChangeDetectorRef,
-    private myService: MyServiceService,
   ) {}
 
-  test!: MoviesComponent;
-
-  ngAfterViewInit(): void {
-    // this.cdr.detectChanges()
+  navigate(link: string) {
+    this.route.navigate([link]);
   }
-
-  isLoading$ = this.service.isLoading$;
-
-  ngOnInit(): void {
-    // this.service.loader.subscribe((res)=>this.isLoading=res)
-  }
-
-  navigateHome() {
-    this.route.navigate(['/list']);
-  }
-
-  navigateMovies() {
-    this.route.navigate(['movies'], {
-      queryParams: { with_genre: '', startDate: '', endDate: '' },
-    });
-  }
-
-  navigateSeries() {
-    this.route.navigate(['series'], {
-      queryParams: { with_genre: '', startDate: '', endDate: '' },
-    });
-  }
-
-  navigateCollection() {
-    this.route.navigate(['collection']);
-  }
-
-  // onInputChange(event: any) {
-  //   console.log(event.target.value);
-
-  //   this.myService.searchMovie(event.target.value);
-  // }
-
-  // onEnterPressed(event: any) {
-  //   console.log(event.target.value);
-  //   this.searchTerm = event.target.value;
-  //   this.myService.searchMovie(this.searchTerm);
-  // }
 }

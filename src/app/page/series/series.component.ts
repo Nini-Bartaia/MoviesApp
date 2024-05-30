@@ -14,6 +14,7 @@ import { MyServiceService } from '../../service/my-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from '../../service/loader.service';
 import { Observable, tap } from 'rxjs';
+import { changeQuery } from '../../shared/models/query';
 
 @Component({
   selector: 'app-series',
@@ -56,11 +57,7 @@ export class SeriesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.series$ = this.service.getSeries();
     this.seriesGenres$ = this.service.getSeriesGenres();
-
-    // this.isLoading$=this.loaderService.isLoading$;
-
     this.route.queryParams.subscribe((queryParamsRes) => {
       if (
         queryParamsRes['with_genre'] ||
@@ -143,13 +140,12 @@ export class SeriesComponent implements OnInit {
   }
 
   changeQuery() {
-    this.router.navigate(['.'], {
-      relativeTo: this.route,
-      queryParams: {
-        with_genre: this.str,
-        startDate: this.startDate,
-        endDate: this.endDate,
-      },
-    });
+    changeQuery(
+      this.router,
+      this.route,
+      this.str,
+      this.startDate,
+      this.endDate,
+    );
   }
 }

@@ -72,4 +72,12 @@ export class ListItemComponent {
       localStorage.setItem('moviesCollection', JSON.stringify(collectionArr));
     });
   }
+
+  onClicked(event: any) {
+    if (this.title == 'Latest') {
+      this.router.navigate(['series']);
+    } else {
+      this.router.navigate(['movies']);
+    }
+  }
 }

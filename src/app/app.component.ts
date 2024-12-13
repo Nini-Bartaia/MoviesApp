@@ -1,4 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,9 +15,8 @@ import { TagModule } from 'primeng/tag';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MyServiceService } from './service/my-service.service';
 import { LoaderService } from './service/loader.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MoviesComponent } from './page/movies/movies.component';
 
 @Component({
   selector: 'app-root',
@@ -21,45 +24,35 @@ import { CommonModule } from '@angular/common';
   imports: [
     RouterModule,
     RouterOutlet,
-    TagModule,CommonModule,
+    TagModule,
+    CommonModule,
     CarouselModule,
     InputIconModule,
     IconFieldModule,
     ButtonModule,
     InputSwitchModule,
     InputTextModule,
+    MoviesComponent,
     ProgressBarModule,
-    ToolbarModule  ],
-  
+    ToolbarModule,
+  ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent {
   title = 'moviesApp';
+  searchTerm: string = '';
+  test!: MoviesComponent;
+  isLoading$ = this.service.isLoading$;
 
-  constructor(private route: Router, private service: LoaderService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private route: Router,
+    private service: LoaderService,
+  ) {}
 
-  
-  ngAfterViewInit(): void {
-    // this.cdr.detectChanges()
-  }
-
-  isLoading$= this.service.isLoading$;
-
-  ngOnInit(): void {
-   // this.service.loader.subscribe((res)=>this.isLoading=res)
-
-   this.service.isLoading$.subscribe((res)=>console.log(res))
-
-  }
-
-  
-  navigateHome() {
-    this.route.navigate(['/list']);
-  }
-
-  navigateMovies(){
-    this.route.navigate(['/movies']);
+  navigate(link: string) {
+    this.route.navigate([link]);
   }
 }

@@ -1,26 +1,19 @@
-<p>movies works!</p>
-<!-- <div class="card flex justify-content-center h-700">
-    <p-multiSelect 
-        (value)="rame"
-         [options]="cities" 
-        [(ngModel)]="selectedCities" 
-        optionLabel="name" 
-        placeholder="Select Cities" />
-</div> -->
-
-
-
-<div class="card flex justify-content-center"  *ngIf="genres$ | async as genres" >
-    <form [formGroup]="formGroup">
-        <p-multiSelect 
+ <div class="flex flex-row w-700 h-24 ml-24">
+<div class="card flex justify-content-center mr-5"  *ngIf="genres$ | async as genres">
+     
+         <p-multiSelect 
+            [formControl]="filterFormControl"
             [options]="genres['genres']" 
-            (onChange)="onGenreSelectionChange($event)"
-            formControlName="selectedCities" 
+             (onChange)="onGenreSelectionChange($event)"
             optionLabel="name" 
             placeholder="Select Genre"/>
-    </form>
+     
+ </div>
+
+<div class="p-field p-col-12 p-md-4">
+    <p-calendar placeholder="Select Date Range" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range" (onSelect)="inputChange()"></p-calendar>
 </div>
-<!-- //radial-gradient(black, transparent) -->
+</div>
 
 <app-list-item
  *ngIf="movies$ | async as movies"
@@ -29,13 +22,7 @@
 </app-list-item>
 
 
-<!-- <div class="loader-container">
+<div class="loader-container" *ngIf="isLoading$ | async">
     <div class="loader"></div>
-  </div> -->
-
-<!-- 
-<app-list-item
- *ngIf="getMovieWithGenre$ | async as moviesGenre"
-[list]="moviesGenre['results']"
-[title]="'Movies'">
-</app-list-item> -->
+  </div>
+ 

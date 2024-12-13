@@ -52,7 +52,7 @@ export class ListComponent implements OnInit {
   constructor(
     private service: MyServiceService,
     private sanitizer: DomSanitizer,
-    private router:Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +63,6 @@ export class ListComponent implements OnInit {
     this.upcomingList$ = this.service.getUpcomingList();
   }
 
-  
   onClick(id: any) {
     this.router.navigate(['details', id]);
   }
@@ -74,5 +73,7 @@ export class ListComponent implements OnInit {
     );
   }
 
-
+  navigateMovies() {
+    this.router.navigate(['movies']);
+  }
 }

@@ -5,7 +5,10 @@ module.exports = {
       extend: {
         spacing:{
           '700':'43rem',
-          '92':'92rem'
+          '92':'92rem',
+          '42':'42rem',
+          '23':'23rem',
+          '15':'15rem'
          
         },
         colors:{
@@ -14,7 +17,11 @@ module.exports = {
         fontFamily:{
 
           'poppins':' "Poppins", sans-serif'
-        }
+        },
+        zIndex:{
+          '5000':'5000'
+        },
+        
       },
     },
   

@@ -1,34 +1,3 @@
-<!-- <div class="flex flex-row w-5/6 h-20 mx-24 mb-96">
-    @for (item of data; track item){
-    
-        <div class="w-full h-full mr-5 text-white cursor-pointer" >
-    
-            <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
-        
-    
-        <p class="font-bold text-white font-poppins">{{item.original_title}}  {{item.original_name}}</p>
-        <p class="font-bold text-white font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
-        <p class="font-bold text-white font-poppins">{{item.overview}}</p>
-        </div>
-    }
-</div> -->
-
-<!-- 
-<div class="flex flex-row w-5/6 h-20 mx-24 mb-96">
-    
-    
-        <div class="w-full h-full mr-5 text-white cursor-pointer" >
-    
-            <img src="https://image.tmdb.org/t/p/w500{{ data.poster_path }}" alt="movie poster"  class="w-full border-round h-72">
-        
-    
-        <p class="font-bold text-white font-poppins">{{item.original_title}}  {{item.original_name}}</p>
-        <p class="font-bold text-white font-poppins">{{item.release_date}} {{item.first_air_date}}</p>
-        <p class="font-bold text-white font-poppins">{{item.overview}}</p>
-        </div>
-    
-</div> -->
-
 <div
   *ngIf="videos$ | async as videos"
   class="flex flex-row w-5/6 h-20 mx-24 mb-96"
@@ -45,6 +14,11 @@
     </div>
   }
 </div>
+
+<div class="loader-container" *ngIf="isLoading$ | async">
+  <div class="loader"></div>
+</div>
+
 
 <div class="flex flex-row mb-24 ml-24 mt-700 border-worth-of-red">
   <div class="w-700 h-96">
@@ -114,22 +88,3 @@
   [title]="'You may also like'"
 ></app-list-item>
 
-<!-- <div>
-    
-    <p class="font-bold text-white font-poppins">{{data?.original_title}}</p>
-    <p class="font-bold text-white font-poppins">{{data?.release_date}}</p>
-    <p class="font-bold text-white font-poppins">{{data?.overview}}</p>
-  </div> -->
-
-<!-- <div class="grid-container">
-    <div class="item1">
-        
-        <img src="https://image.tmdb.org/t/p/w500{{ data?.poster_path }}" alt="Poster" class="w-full h-full">
-
-    </div>
-    <div class="item2">header</div>
-    <div class="item3">overwiew</div>  
-    <div class="item4">fields</div>
-    <div class="item5">values</div>
-  </div>
-   -->

@@ -1,33 +1,23 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core';
-import { MultiSelectModule } from 'primeng/multiselect';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnimateModule } from 'primeng/animate';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
-import { ScrollerModule } from 'primeng/scroller';
 import { DragDropModule } from 'primeng/dragdrop';
 import { DropdownModule } from 'primeng/dropdown';
-import { BehaviorSubject, Observable, filter, of, switchMap, tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { MyServiceService } from '../../service/my-service.service';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ScrollerModule } from 'primeng/scroller';
 import { ListItemComponent } from '../../shared/list-item/list-item.component';
-import { LoaderService } from '../../service/loader.service';
 import { SliderModule } from 'primeng/slider';
 import { CalendarModule } from 'primeng/calendar';
+import { MyServiceService } from '../../service/my-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoaderService } from '../../service/loader.service';
+import { Observable, tap } from 'rxjs';
 import { changeQuery } from '../../shared/models/query';
 
 @Component({
-  selector: 'app-movies',
+  selector: 'app-series',
   standalone: true,
   imports: [
     MultiSelectModule,
@@ -44,28 +34,20 @@ import { changeQuery } from '../../shared/models/query';
     FormsModule,
     CalendarModule,
   ],
-  templateUrl: './movies.component.html',
-  styleUrl: './movies.component.scss',
+  templateUrl: './series.component.html',
+  styleUrl: './series.component.scss',
 })
-export class MoviesComponent implements OnInit, AfterViewInit {
-  cities!: any[];
-  numForm!: FormGroup;
-  genres$!: Observable<any>;
-  movies$!: Observable<any>;
-  getMovieWithGenre$!: Observable<any>;
+export class SeriesComponent implements OnInit {
   isLoading$!: any;
-  rangeValues: number[] = [1700, 2024];
-  rangeDates!: Date[];
+  series$!: Observable<any>;
+  seriesGenres$!: Observable<any>;
   str = '';
-  startDate: string = '';
-  genreId: string = '';
-  endDate: string = '';
-  newArr!: any[];
-  selectedValue$: Observable<any> = of();
-  genresArr: any[] = [];
-  updatedValue!: any;
+  genreIds: string = '';
+  rangeDates!: Date[];
   filterFormControl: FormControl<any | null> = new FormControl<any | null>('');
-
+  genresArr: any[] = [];
+  startDate: string = '';
+  endDate: string = '';
   constructor(
     private service: MyServiceService,
     private cdr: ChangeDetectorRef,
@@ -74,40 +56,29 @@ export class MoviesComponent implements OnInit, AfterViewInit {
     private router: Router,
   ) {}
 
-  ngOnInit() {
-    this.maintainState();
-
-    this.isLoading$ = this.loaderService.isLoading$;
-  }
-
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
-  }
-
-  onGenreSelectionChange(event: any) {
-    this.str = '';
-    event.value.forEach((item: any) => (this.str += item.id + ','));
-    this.movies$ = this.service.getAllMovies('', '', this.str);
-    this.changeQuery();
-  }
-
-  maintainState() {
-    this.route.queryParams.subscribe((res) => {
-      if (res['with_genre'] || res['startDate'] || res['endDate']) {
-        this.movies$ = this.service.getAllMovies(
-          res['startDate'],
-          res['endDate'],
-          res['with_genre'],
+  ngOnInit(): void {
+    this.seriesGenres$ = this.service.getSeriesGenres();
+    this.route.queryParams.subscribe((queryParamsRes) => {
+      if (
+        queryParamsRes['with_genre'] ||
+        queryParamsRes['startDate'] ||
+        queryParamsRes['endDate']
+      ) {
+        this.series$ = this.service.getAllSeries(
+          queryParamsRes['startDate'],
+          queryParamsRes['endDate'],
+          queryParamsRes['with_genre'],
         );
 
-        this.genres$ = this.service.getGenresForMovies().pipe(
+        this.seriesGenres$.pipe(
           tap((genresRes) => {
-            const ids = res['with_genre'].split(',').map(Number);
-            const filteredGenres = genresRes['genres'].filter((genre: any) =>
-              ids.includes(genre.id),
+            const ids = genresRes['with_genre'].split(',').map(Number);
+            const filteredIds = genresRes['genres'].filter((val: any) =>
+              ids.includes(val.id),
             );
             this.genresArr = [];
-            filteredGenres.forEach((genre: any) => {
+
+            filteredIds.forEach((genre: any) => {
               if (
                 !this.genresArr.some(
                   (existingGenre: any) => existingGenre.id === genre.id,
@@ -121,10 +92,18 @@ export class MoviesComponent implements OnInit, AfterViewInit {
           }),
         );
       } else {
-        this.movies$ = this.service.getAllMovies();
-        this.genres$ = this.service.getGenresForMovies();
+        this.series$ = this.service.getAllSeries();
       }
     });
+  }
+
+  onGenreSelectionChange(event: any) {
+    this.str = '';
+    event.value.forEach((item: any) => (this.str += item.id + ','));
+
+    this.series$ = this.service.getAllSeries('', '', this.str);
+
+    this.changeQuery();
   }
 
   inputChange() {
@@ -144,7 +123,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       }
     }
 
-    this.movies$ = this.service.getAllMovies(
+    this.series$ = this.service.getAllMovies(
       startFormatted,
       endFormatted,
       this.str,
